@@ -5,6 +5,7 @@ import { IconContext } from "react-icons";
 import { TfiGallery,TfiVideoClapper,TfiHome,TfiAlert } from 'react-icons/tfi';
 import { GiHoodedAssassin } from 'react-icons/gi';
 import { FaDoorClosed } from 'react-icons/fa';
+
 const {ipcRenderer} = window.require("electron");
 
 const Nav = () => {
@@ -33,7 +34,7 @@ return (
       </NavLink>
     </li>
     <li className='flex justify-center items-center text-2xl p-3 rounded cursor-pointer hover:bg-slate-700'>
-      <NavLink  to="/film">
+      <NavLink  to="/movie">
         <IconContext.Provider value={{ className: "" }}>
             <TfiVideoClapper />
         </IconContext.Provider> 

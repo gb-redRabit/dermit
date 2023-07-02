@@ -20,20 +20,12 @@ function App() {
     })
   },[]);
   
-  // if(dataAnime.length >2 ){
-  //   console.log(dataAnime)
-  // const animeTV = dataAnime.filter(item => item.series_type !== "Movie").map(item => item)
-  // const animeMovie =dataAnime.filter(item => item.series_type === "Movie").map(item => item)
-  // setDataAnimeTV(animeTV)
-  // setDataMovie(animeMovie);
-  //   console.log(dataAnimeMovie)}
   let animeTV;
   let animeMovie;
   if(dataAnime.length >2 ){
     animeTV = dataAnime.filter(item => item.series_type !== "Movie").map(item => item);
     animeMovie = dataAnime.filter(item => item.series_type === "Movie").map(item => item);
   }
-    console.log(animeTV)
   return (
     dataAnime ? <div className="flex min-h-screen">
       <Nav/>
@@ -41,9 +33,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home dataAnime={dataAnime}/>} />
         <Route path="/anime" element={<Anime animeTV={animeTV}/>} />
-        <Route path="/film" element={<Filmy animeMovie={animeMovie}/>} />
+        <Route path="/movie" element={<Filmy animeMovie={animeMovie}/>} />
         <Route path="/galeria" element={<Galeria />} />
         <Route path="/anime/:id" element={<Spinners/>} />
+        <Route path="/movie/:id" element={<Spinners/>} />
       </Routes>
     </div>
   </div>

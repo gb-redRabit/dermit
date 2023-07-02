@@ -2,8 +2,8 @@ import React from 'react';
 import ItemAnime from './ItemAnime';
 
 const Filmy = ({animeMovie}) => {
-    const list = animeMovie.map((item,key) => { 
-        return <ItemAnime item={item} key={item.slug}/>
+    const list = animeMovie.map((item,id) => { 
+        return <ItemAnime item={item} key={id}/>
      })
      return (
          <div className='flex justify-center items-center flex-wrap'>

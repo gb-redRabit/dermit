@@ -58,6 +58,18 @@ ipcMain.on("sluchacz1",(event,data)=>{
 
 })
 
+ipcMain.on("getAnime",(event,data)=>{
+  fetch(`https://api.docchi.pl/v1/series/find/${data}`)
+	.then(res => res.text())
+	.then(body => event.reply("onAnime",body))
+  
+})
+
+ipcMain.on("getEpisodes",(event,data)=>{
+  fetch(`https://api.docchi.pl/v1/episodes/find/${data}`)
+	.then(res => res.text())
+	.then(body => event.reply("onEpisodes",body)) 
+})
 ipcMain.on('close', () => {
   app.quit();
 })

@@ -3,9 +3,9 @@ import {NavLink} from 'react-router-dom';
 
 
 const ItemAnime = ({item}) => {
-    // console.log(item)
+    const type = item.series_type ==="Movie"? 'movie' : 'anime';
     return (
-    <NavLink  to={`/anime/${item.slug}`}>
+    <NavLink  to={`/${type}/${item.slug}`}>
         <div className="w-60 h-80 m-3 relative rounded-md overflow-hidden"> 
             <img src={item.cover} alt="item" className="w-full h-full"/>
             <div className="absolute top-0 right-0 flex justify-center items-center w-7 h-7 rounded-bl-lg  text-white bg-slate-400 ">
