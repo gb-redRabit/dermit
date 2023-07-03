@@ -2,9 +2,9 @@ import React from 'react';
 import {  useLocation } from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
 import { useState,useEffect} from 'react';
-import Aaa from './Aaa';
+import LinkEpisodes from './LinkEpisodes';
 const {ipcRenderer} = window.require("electron");
-const Spinners = () => {
+const DescriptionAnime = () => {
 
     const [data, setData] = useState({ hits: [] }); 
     const [list, setList] = useState([]); 
@@ -28,30 +28,23 @@ const Spinners = () => {
                 episodes[i -1] =  JSON.parse(d);
                 setList([...episodes])
                 }
-            }else{
-                episodes[i -1] = "undefined"
             }
              })
         }
     }
     });
- 
-const aaa = [...list].map((items,id) => {
-    if(items){
-   return <Aaa items= {items} key={id}/>}
-   else{
-    return "";
-   }
-})
+   
     return (
         <div className="text-white flex flex-col justify-center items-center h-screen bg-cover" style={{backgroundImage: `url(${data.bg})`, width: 'calc(100vw - 64px)'}}>
             <NavLink  to={useLocation().pathname.slice(0,6)} >
                 "powrót"
            </NavLink>
         <div>{useLocation().pathname}</div>
-        <div className='flex justify-center items-center flex-wrap '>{aaa}</div>
+        <div className='flex justify-center items-center flex-wrap '>
+            {list.map((items,id)=> <LinkEpisodes items= {items} key={id}/>)}
+        </div>
         </div>
     );
 }
 
-export default Spinners;
+export default DescriptionAnime;

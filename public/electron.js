@@ -70,6 +70,7 @@ ipcMain.on("getEpisodes",(event,data)=>{
 	.then(res => res.text())
 	.then(body => event.reply("onEpisodes",body)) 
 })
+
 ipcMain.on('close', () => {
   app.quit();
 })

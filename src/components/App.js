@@ -1,11 +1,12 @@
 import { useState,useEffect} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Nav from './Nav';
-import Spinners from './Spinners';
+import DescriptionAnime from './list/DescriptionAnime';
 import Home from './Home';
 import Anime from './Anime';
 import Filmy from './Filmy';
 import Galeria from './Galeria';
+import DescriptionEpisodes from './episodes/DescriptionEpisodes';
 
 const {ipcRenderer} = window.require("electron");
 
@@ -35,13 +36,16 @@ function App() {
         <Route path="/anime" element={<Anime animeTV={animeTV}/>} />
         <Route path="/movie" element={<Filmy animeMovie={animeMovie}/>} />
         <Route path="/galeria" element={<Galeria />} />
-        <Route path="/anime/:id" element={<Spinners/>} />
-        <Route path="/movie/:id" element={<Spinners/>} />
+        <Route path="/anime/:id" element={<DescriptionAnime/>} />
+        <Route path="/movie/:id" element={<DescriptionAnime/>} />
+        <Route path="/anime/:id/:id" element={<DescriptionEpisodes/>} />
+        <Route path="/movie/:id/:id" element={<DescriptionEpisodes/>} />
+        
       </Routes>
     </div>
   </div>
   : 
-  <Spinners />
+ <></>
   );
 }
 

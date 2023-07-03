@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemAnime from './ItemAnime';
+import ItemAnime from './list/ItemAnime';
 
 const Anime = ({animeTV}) => {
   const list = animeTV.map((item,id) => { 
