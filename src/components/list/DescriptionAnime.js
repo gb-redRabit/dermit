@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import {  useLocation } from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
@@ -23,7 +24,7 @@ const DescriptionAnime = () => {
         for(let i= 1; i <= data.episodes;i++){
             ipcRenderer.send('getEpisodes', `${slug}/${i}`);
             ipcRenderer.on('onEpisodes', (e, d) => {
-            if((episodes.length <= data.episodes) && (JSON.parse(d)[0] != undefined) ){                
+            if((episodes.length <= data.episodes) && (JSON.parse(d)[0] !== undefined) ){                
                 if( i === JSON.parse(d)[0].anime_episode_number ){
                 episodes[i -1] =  JSON.parse(d);
                 setList([...episodes])
@@ -35,7 +36,7 @@ const DescriptionAnime = () => {
     });
    
     return (
-        <div className="text-white flex flex-col justify-center items-center h-screen bg-cover" style={{backgroundImage: `url(${data.bg})`, width: 'calc(100vw - 64px)'}}>
+        <div className="text-white flex flex-col justify-center items-center min-h-screen bg-cover" style={{backgroundImage: `url(${data.bg})`, maxWidth: 'calc(100vw - 64px)', width: 'calc(100vw - 64px)'}}>
             <NavLink  to={useLocation().pathname.slice(0,6)} >
                 "powrót"
            </NavLink>

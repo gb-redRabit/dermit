@@ -7,6 +7,7 @@ import Anime from './Anime';
 import Filmy from './Filmy';
 import Galeria from './Galeria';
 import DescriptionEpisodes from './episodes/DescriptionEpisodes';
+import $ from 'jquery';
 
 const {ipcRenderer} = window.require("electron");
 

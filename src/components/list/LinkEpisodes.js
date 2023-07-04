@@ -13,7 +13,7 @@ const LinkEpisodes = ({items}) => {
         slug +=  `/${slug}/404}`
     }
     return ( 
-        <NavLink  to={slug}>
+        <NavLink  to={slug} >
         <div className="w-40 h-28 flex justify-center items-center">
             {el}
             
