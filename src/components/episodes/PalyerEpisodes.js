@@ -1,9 +1,7 @@
 import React from 'react';
 
-const PalyerEpisodes = ({item}) => {
+const PalyerEpisodes = ({item,w,h}) => {
     let src;
-    const h = window.innerHeight*0.7;
-    const w = window.innerWidth*0.7;
     if(item.player_hosting  === "CDA"){
         const lastIndex = item.player.lastIndexOf('/');
         const lenghtPlayer= item.player.length;

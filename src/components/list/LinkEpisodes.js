@@ -2,14 +2,27 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import { IconContext } from "react-icons";
+import { LuImageOff } from 'react-icons/lu';
+
 const LinkEpisodes = ({items}) => {
-    let el ="";
+    let el ;
+    let src ;
     let slug = useLocation().pathname;
+    const noImg = <IconContext.Provider value={{ className: "flex justify-center items-center p-10 text-white h-[130px] w-full bg-gray-800 rounded-t-2xl" }}><LuImageOff /></IconContext.Provider>
     if(items !== undefined){ 
+        items.map(item =>{
+            if(item.bg !== null){
+                src= item.bg
+            }
+        })
         slug += `/${items[0].anime_episode_number}`
-        el =<img src={items[0].bg ? items[0].bg : items[[...items].length - 1].bg} className=" w-full h-full rounded-t-2xl"/>
+        if(src)
+        el =<img src={src} className=" w-full h-full rounded-t-2xl"/>
+        else
+        el= noImg
     }else{
-        el= <h1 className="">xxxxxxxxxxx</h1>
+        el= noImg
         slug +=  `/${slug}/404}`
     }
     return ( 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState,useEffect} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Nav from './Nav';
@@ -31,9 +32,10 @@ function App() {
   return (
     dataAnime ? <div className="flex min-h-screen">
       <Nav/>
-    <div className="bg-slate-950 pl-16 flex justify-center items-center">
+    <div className="bg-slate-950 pl-16 flex" style={{ maxWidth: 'calc(100vw)', width: 'calc(100vw )'}}>
       <Routes>
-        <Route path="/" element={<Home dataAnime={dataAnime}/>} />
+        
+        <Route path="/" exact  element={< Home />} />
         <Route path="/anime" element={<Anime animeTV={animeTV}/>} />
         <Route path="/movie" element={<Filmy animeMovie={animeMovie}/>} />
         <Route path="/galeria" element={<Galeria />} />
