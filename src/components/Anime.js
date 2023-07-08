@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import ItemAnime from './list/ItemAnime';
 import { useState,useEffect} from 'react';
 import Genres from './Genres';
-import {NavLink , useLocation} from 'react-router-dom'
+import { useLocation} from 'react-router-dom'
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from 'react-icons/cg';
-
+import Breadcrumbs from './Breadcrumbs';
 const Anime = ({animeTV}) => {
     const [genres, setGenres] = useState([]);
     const [genresDisplay, setGenresDisplay] = useState(true);
@@ -106,14 +107,7 @@ const Anime = ({animeTV}) => {
       }
     return (
         <div className='flex  flex-col justify-start items-start flex-wrap  min-h-screen w-[80vw] mx-auto' style={{ maxWidth: 'calc(100vw - 81px)'}}>
-            <div className='flex flex-row justify-start gap-4  mt-10  w-full'>
-                <NavLink  to="/" style={{ color: 'white', }}  onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                    Home
-                </NavLink>
-                <NavLink  to={location.slice(0,6)} style={{ color: 'white'}} onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                    Anime
-                </NavLink>
-            </div>
+            <Breadcrumbs bcHome={true} bcTyp={location.slice(1,6)} bcTitle={false} bcEpisodes={false}/>
             <div className='flex justify-between items-center text-white bg-slate-900 w-full p-4 rounded my-10'>
                 <div>
                     <h1 className="text-xl font-medium">Lista anime</h1>
@@ -129,14 +123,14 @@ const Anime = ({animeTV}) => {
                         </IconContext.Provider>
                     </button>
             </div>
-            <div className='mb-10 flex bg-slate-900 w-full rounded p-4 transition-all duration-300 ease-linear' style={genresDisplay?{ height: "0px", overflow: "hidden",padding: "0"}:{  height: "auto",padding: "16px",overflow:"auto"}}>
-                <div className='flex flex-col w-4/5 gap-4'>
+            <div className='mb-10 flex bg-slate-900 w-full rounded transition-all duration-300 ease-linear overflow-hidden overflow-y-hidden' style={genresDisplay?{ height: "0px"}:{  height: "200px"}}>
+                <div className='flex flex-col w-4/5 gap-4 my-4 ml-4'>
                     <h1 className="text-xl font-medium text-white">Tagi</h1>
                     <div className='flex flex-row flex-wrap  gap-2' id="genres">
                         {genres.map((text,id) => <Genres text={text} click={clickGenres} key={id} />)}  
                     </div> 
                 </div>
-                <div className='flex flex-col w-1/5 gap-4 ml-5'>
+                <div className='flex flex-col w-1/5 gap-4 ml-5 mt-4'>
                     <h1 className="text-xl font-medium text-white">Rodzaj</h1>
                     <div className='flex flex-row flex-wrap h-full gap-2'>
                         <select onChange={selectType} className='h-14 w-4/5 block py-2 px-2 text-xl text-gray-500 bg-gray-950 border-0 border-b-2 border-gray-500 appearance-none rounded'>

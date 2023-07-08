@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import { useLocation , NavLink } from 'react-router-dom';
 import { IconContext } from "react-icons";
 import { LuImageOff } from 'react-icons/lu';
 
@@ -11,7 +10,7 @@ const LinkEpisodes = ({items}) => {
     let slug = useLocation().pathname;
     const noImg = <IconContext.Provider value={{ className: "flex justify-center items-center p-10 text-white h-[130px] w-full bg-gray-800 rounded-t-2xl" }}><LuImageOff /></IconContext.Provider>
     if(items !== undefined){ 
-        items.map(item =>{
+        items.forEach(item =>{
             if(item.bg !== null){
                 src= item.bg
             }
@@ -23,7 +22,7 @@ const LinkEpisodes = ({items}) => {
         el= noImg
     }else{
         el= noImg
-        slug +=  `/${slug}/404}`
+        slug +=  `/404`
     }
     return ( 
         <NavLink  to={slug} >

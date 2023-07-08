@@ -2,7 +2,6 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState,useEffect} from 'react';
 import {NavLink} from 'react-router-dom'
-import {  useLocation } from 'react-router-dom';
 
 
 // Import Swiper styles
@@ -13,6 +12,7 @@ import 'swiper/css/pagination';
 
 // import required modules
 import { FreeMode, Pagination,Autoplay } from 'swiper/modules';
+import Breadcrumbs from './Breadcrumbs';
 
 const {ipcRenderer} = window.require("electron");
 const Home = () => {
@@ -72,6 +72,7 @@ const Home = () => {
       if(data !== undefined)
     return (
         <div className=' flex flex-col overflow-hidden justify-start items-center min-h-screen w-[80vw] mx-auto' style={{ maxWidth: 'calc(100vw - 81px)'}}>
+              <Breadcrumbs bcHome={true} bcTyp={false} bcTitle={false} bcEpisodes={false}/>
              <div className='flex flex-row justify-start gap-4  mt-10  w-full'>
                 <NavLink  to="/" style={{ color: 'white', }}  onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
                     Home

@@ -10,9 +10,13 @@ const PalyerEpisodes = ({item,w,h}) => {
         src = (item.player)
     }
 
+    if(h !== window.innerHeight){
     return (
-        <iframe src={src} title="player" scrolling="no" className="z-10" style={{ width: `${w}px`, height: `${h}px` }}/>
-    );
+        <iframe src={src} title="player" scrolling="no" className="z-10 " style={{ width: `${w}px`, height: `${h}px` }}/>
+    )}else{
+    return (
+        <iframe src={src} title="player" scrolling="no" className="z-10 absolute top-0 left-0 bottom-0 right-0" style={{ width: `${w}px`, height: `${h}px` }}/>
+    )}
 
 }
 

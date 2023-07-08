@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import {  useLocation } from 'react-router-dom';
-import {NavLink} from 'react-router-dom';
 import { useState,useEffect} from 'react';
 import LinkEpisodes from './LinkEpisodes';
 import Genres from './../Genres';
+import Breadcrumbs from '../Breadcrumbs';
 const {ipcRenderer} = window.require("electron");
 const DescriptionAnime = () => {
 
@@ -14,14 +14,13 @@ const DescriptionAnime = () => {
 
     let episodes= [];
     const slug = location.slice(7,location.length);
- 
+    console.log(slug)
     useEffect(() => {
       ipcRenderer.send('getAnime', slug);
       ipcRenderer.on('onAnime', (e, d) => {
         setData(JSON.parse(d))
       })
-    });
- 
+    },[]);
     useEffect(() => {
         if(list.length !== data.episodes){
         for(let i= 1; i <= data.episodes;i++){
@@ -37,12 +36,6 @@ const DescriptionAnime = () => {
         }
     }
     });
-    function changeBackground(e) {
-        e.target.style.color = '#728a0b';
-      }
-      function changeBackground2(e) {
-        e.target.style.color = 'white';
-      }
       if(data)
     return (
         <div className=" bg-cover flex justify-center  items-start relative z-[1] min-h-screen" style={{ maxWidth: 'calc(100vw - 81px)', width: 'calc(100vw - 81px)'}}>
@@ -50,17 +43,8 @@ const DescriptionAnime = () => {
                 <img src={data.bg ? data.bg: data.cover} alt= {data.bg} className='w-full h-full object-cover absolute '/>
             </div>
             <div className='flex flex-col justify-center items-center w-[80vw]'>
-                <div className='flex flex-row justify-start gap-4  my-10  w-full'>
-                    <NavLink  to="/" style={{ color: 'white', }}  onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                        Home
-                    </NavLink>
-                    <NavLink  to={location.slice(0,6)} style={{ color: 'white'}} onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                        Anime
-                    </NavLink>
-                    <NavLink  to={location} style={{ color: 'white'}} onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                        {data.title}
-                    </NavLink>
-                </div>
+            <Breadcrumbs bcHome={true} bcTyp={location.slice(1,6)} bcTitle={location.slice(7,location.length)} bcEpisodes={false}/>
+
                 <div className=" flex flex-row justify-start  my-10  w-full">
                     <img src={data.cover} alt={data.cover} className=" rounded-2xl "/>
                     <div className="w-3/5 ml-16 flex flex-col  items-start  text-white">

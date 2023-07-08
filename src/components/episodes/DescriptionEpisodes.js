@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import {  Link, useLocation } from 'react-router-dom';
+import {  NavLink, useLocation } from 'react-router-dom';
 import { useState,useEffect} from 'react';
-import {NavLink} from 'react-router-dom';
+import { useNavigate } from 'react-router'
 import PalyerEpisodes from './PalyerEpisodes';
 import { IconContext } from "react-icons";
 import {TbPlayerTrackPrev, TbPlayerTrackNext, TbBrandCodesandbox } from 'react-icons/tb';
 import {BsArrowsFullscreen } from 'react-icons/bs'
+import Breadcrumbs from '../Breadcrumbs';
 const {ipcRenderer} = window.require("electron");
 
 const DescriptionEpisodes = () => {
     const [w, setW] = useState(window.innerWidth*0.7); 
     const [h, setH] = useState(window.innerHeight*0.7); 
     const [data, setData] = useState({ hits: [] }); 
+    const [dataAnime, setDataAnime] = useState({ hits: [] }); 
     const [playerActive, setPlayerActive] = useState(); 
     const location = useLocation().pathname;
     const slug = location.slice(7,location.length);
@@ -20,17 +22,36 @@ const DescriptionEpisodes = () => {
     const slugEpisodes = location.slice(location.lastIndexOf('/') + 1 ,location.length);
     const popEpisodes = `${location.slice(0,location.length - slugEpisodesLength )}/${parseInt(slugEpisodes) -1}`
     const nextEpisodes = `${location.slice(0,location.length - slugEpisodesLength )}/${parseInt(slugEpisodes) +1}`
+    const navigate = useNavigate()
 
     useEffect(() => {
     ipcRenderer.send('getEpisodes', `${slug}`);
     ipcRenderer.on('onEpisodes', (e, d) => {    
         setData(JSON.parse(d))
      })
-     
     },[]);
-    const fullScreen = () => {
-      setW(window.innerWidth*0.96)
-      setH(window.innerHeight)
+
+    useEffect(() => {
+      ipcRenderer.send('getAnime', slug.slice(0,slug.length - slugEpisodesLength ));
+      ipcRenderer.on('onAnime', (e, d) => {
+        setDataAnime(JSON.parse(d))
+      },[])
+      console.log(dataAnime.episodes )
+    },[]);
+    
+    const fullScreen = (e) => {
+      if(e.target.style.position !== "absolute"){
+      e.target.style.position = "absolute"
+      e.target.style.top = "20px";
+      e.target.style.left  = "20px";
+      setW(window.innerWidth)
+      setH(window.innerHeight)}
+      else{
+      e.target.style.position = "relative"
+      e.target.style.top = "auto";
+      e.target.style.left  = "auto";
+      setW(window.innerWidth*0.7)
+      setH(window.innerHeight*0.7)}
     }
     function changeBackground(e) {
       e.target.style.color = '#728a0b';
@@ -39,26 +60,12 @@ const DescriptionEpisodes = () => {
       e.target.style.color = 'white';
     }
     if(data[0]){
-        console.log(data[0])
        return (
         <div className="text-white flex flex-col  items-center h-screen bg-cover min-h-screen w-[80vw] mx-auto" style={{ maxWidth: 'calc(100vw - 81px)'}}>
-           <div className='flex flex-row justify-start gap-4  my-10  w-full'>
-                    <NavLink  to="/" style={{ color: 'white', }}  onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                        Home
-                    </NavLink>
-                    <NavLink  to={location.slice(0,6)} style={{ color: 'white'}} onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                        Anime
-                    </NavLink>
-                    <NavLink  to={location.slice(0,location.length - slugEpisodesLength )} style={{ color: 'white'}} onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                    {location.slice(location.slice(0,6).length +1,location.length - slugEpisodesLength )}
-                    </NavLink>
-                    <NavLink  to={location} style={{ color: 'white'}} onMouseEnter ={changeBackground} onMouseLeave={changeBackground2}>
-                        {slugEpisodes}
-                    </NavLink>
-                </div>
+              <Breadcrumbs bcHome={true} bcTyp={location.slice(1,6)} bcTitle={slug.slice(0,slug.length - slugEpisodesLength )} bcEpisodes={slugEpisodes}/>
           <div className='flex justify-center items-center m-3 p-3 gap-4'>
-              <NavLink  to={popEpisodes} onClick={window.location.reload} style={{ color: 'white'}}>
-              <IconContext.Provider value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}>
+              <NavLink  to={popEpisodes} onClick={()=> {navigate(popEpisodes); navigate(0)}} style={slugEpisodes === "1"?{cursor: "not-allowed",color: "white"}:{cursor: "default",color: "white"}}>
+              <IconContext.Provider value={{ className: "text-4xl mx-3 hover:text-yellow-500" }} >
                 <TbPlayerTrackPrev/>
               </IconContext.Provider>
               </NavLink>
@@ -67,20 +74,20 @@ const DescriptionEpisodes = () => {
                 <TbBrandCodesandbox/>
               </IconContext.Provider>
               </NavLink>
-              <butin  className="cursor-pointer text-white" onClick={fullScreen}>
+              <butin  className="cursor-pointer text-white z-50" onClick={(e)=> fullScreen(e)}>
               <IconContext.Provider value={{ className: "text-3xl mx-3 hover:text-yellow-500" }}>
                 <BsArrowsFullscreen/>
               </IconContext.Provider>
               </butin>
-              <NavLink  to={nextEpisodes}  onClick={window.location.reload} style={{ color: 'white'}}>
+              <NavLink  to={nextEpisodes}  onClick={()=> {navigate(nextEpisodes); navigate(0)}} style={dataAnime.episodes === parseInt(slugEpisodes)?{cursor: "not-allowed",color: "white"}:{cursor: "default",color: "white"}}>
               <IconContext.Provider value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}>
                 <TbPlayerTrackNext/>
               </IconContext.Provider>
               </NavLink>
               </div>
               {playerActive? <PalyerEpisodes item={playerActive} h={h} w={w}/>: < PalyerEpisodes item={data[0]} h={h} w={w}/>}
-                <div className=' flex gap-2 my-2'>
-             {data.map(item =>{return <button className='text-lg border-solid border-2 border-gray-500 rounded-xl text-white px-5 py-2 text-center hover:text-yellow-500' key={item.id} onClick={((e)=>{setPlayerActive(item)})}>{item.player_hosting}</button>})}
+                <div className=' flex gap-2 my-2 p-5'>
+             {data.map(item =>{return <button className='text-lg border-solid border-2 border-gray-500 rounded-xl text-white px-5 py-2 text-center hover:text-yellow-500' key={item.id} onClick={((e)=>{setPlayerActive(item)})}>{item.player_hosting} - {item.translator_title}</button>})}
               </div>
         </div>
     );}else{

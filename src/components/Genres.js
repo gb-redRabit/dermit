@@ -3,7 +3,7 @@ import React from 'react';
 const Genres = ({text,typ,click}) => {
     if(typ !=="big")
     return (
-        <button onClick={click} className="text-sm flex justify-center items-center p-1  bg-gray-950 rounded text-white  text-center hover:text-yellow-500 cursor-pointer">{text}</button>
+        <button onClick={click} className="text-sm flex justify-center items-center p-2  bg-gray-950 rounded text-white  text-center hover:text-yellow-500 cursor-pointer">{text}</button>
     )
     else
     return (

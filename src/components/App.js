@@ -8,7 +8,7 @@ import Anime from './Anime';
 import Filmy from './Filmy';
 import Galeria from './Galeria';
 import DescriptionEpisodes from './episodes/DescriptionEpisodes';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 const {ipcRenderer} = window.require("electron");
 
@@ -33,7 +33,7 @@ function App() {
     dataAnime ? <div className="flex min-h-screen">
       <Nav/>
     <div className="bg-slate-950 pl-16 flex" style={{ maxWidth: 'calc(100vw)', width: 'calc(100vw )'}}>
-      <Routes>
+      <Routes >
         
         <Route path="/" exact  element={< Home />} />
         <Route path="/anime" element={<Anime animeTV={animeTV}/>} />
@@ -43,7 +43,7 @@ function App() {
         <Route path="/movie/:id" element={<DescriptionAnime/>} />
         <Route path="/anime/:id/:id" element={<DescriptionEpisodes/>} />
         <Route path="/movie/:id/:id" element={<DescriptionEpisodes/>} />
-        
+        <Route path="/anime/:id/404" element={<Galeria/>} />
       </Routes>
     </div>
   </div>
