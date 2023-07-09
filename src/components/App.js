@@ -6,9 +6,9 @@ import Nav from "./Nav";
 import DescriptionAnime from "./DescriptionAnime";
 import Home from "./Home";
 import Anime from "./Anime";
-import Filmy from "./Filmy";
 import Galeria from "./Galeria";
 import DescriptionEpisodes from "./DescriptionEpisodes";
+import Filmy from "./Filmy";
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
@@ -41,8 +41,14 @@ function App() {
       >
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/anime" element={<Anime animeTV={animeTV} />} />
-          <Route path="/movie" element={<Filmy animeMovie={animeMovie} />} />
+          <Route
+            path="/anime"
+            element={<Anime anime={animeTV} page="anime" />}
+          />
+          <Route
+            path="/movie"
+            element={<Filmy anime={animeMovie} page="filmy" />}
+          />
           <Route path="/galeria" element={<Galeria />} />
           <Route path="/anime/:id" element={<DescriptionAnime />} />
           <Route path="/movie/:id" element={<DescriptionAnime />} />

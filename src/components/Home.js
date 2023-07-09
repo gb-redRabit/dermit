@@ -75,7 +75,7 @@ const Home = () => {
         )} ${new Date().getFullYear()}`}</h1>
         <Swiper
           autoplay={{
-            delay: 2500,
+            delay: 1500,
             disableOnInteraction: false,
           }}
           slidesPerView={6}

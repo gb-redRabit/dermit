@@ -76,10 +76,10 @@ const DescriptionAnime = () => {
               <h2 className="text-2xl font-bold p-2">
                 {data.title_en === data.title ? "" : data.title_en}
               </h2>
-              <p className="text-xl font-medium px-4 pt-10 text-slate-300">
+              <p className="text-xl font-medium px-2 pt-10 text-slate-300">
                 Opis
               </p>
-              <p className="text-lg px-4 pt-5 text-slate-200">
+              <p className="text-lg px-2 pt-5 text-slate-200">
                 {data.description}
               </p>
             </div>

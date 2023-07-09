@@ -1,78 +1,63 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 // Import element componets
 import ItemAnime from "./ItemAnime";
 import Genres from "./Genres";
+import Breadcrumbs from "./Breadcrumbs";
 // Import react-icons
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
+import Typography from "./Typography";
 
-const Filmy = ({ animeMovie }) => {
+const Anime = ({ anime, page }) => {
   const [genres, setGenres] = useState([]);
   const [genresDisplay, setGenresDisplay] = useState(true);
   const [flaga, setFlaga] = useState(true);
-  const [data, setData] = useState(animeMovie);
+  const [data, setData] = useState(anime);
   const [text, setText] = useState([]);
   const [type, setTyp] = useState([]);
+
   let typ = [];
   let gen = [];
-  const location = useLocation().pathname;
 
   useEffect(() => {
-    animeMovie.map((item, id) => {
+    anime.forEach((item) => {
       gen = [...gen, ...item.genres];
       gen = Array.from(new Set(gen));
       setGenres(gen);
-
-      return <ItemAnime item={item} key={id} />;
-    });
-  }, []);
-  useEffect(() => {
-    animeMovie.forEach((item) => {
       typ = [...typ, item.series_type];
       typ = Array.from(new Set(typ));
       setTyp(typ);
     });
   }, []);
+
   const searchInput = (e) => {
     setText(e.target.value.toLowerCase());
-    setData(
-      animeMovie.filter((word) => word.title.toLowerCase().includes(text))
-    );
+    setData(anime.filter((word) => word.title.toLowerCase().includes(text)));
   };
+
   const displayGenres = () => {
     setGenresDisplay(!genresDisplay);
   };
-  function changeBackground(e) {
-    e.target.style.color = "#728a0b";
-  }
-  function changeBackground2(e) {
-    e.target.style.color = "white";
-  }
 
-  const clickBackground = (e) => {
+  const activeBackground = (e) => {
     document.querySelectorAll("#sort button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    if (e.target.style.color === "rgb(114, 138, 11)")
-      e.target.style.color = "rgb(255, 255, 255)";
-    else e.target.style.color = "rgb(114, 138, 11)";
+    e.target.style.color = "rgb(114, 138, 11)";
   };
+
   const clickGenres = (e) => {
-    document.querySelectorAll("button").forEach((item) => {
-      item.style.color = "rgb(255, 255, 255)";
-    });
     setData(
-      animeMovie.filter((word) => [...word.genres].includes(e.target.innerText))
+      anime.filter((word) => [...word.genres].includes(e.target.innerText))
     );
-    document.querySelector("select").value = "all";
+    document.querySelector("select").value = "";
     document.querySelectorAll("#genres button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    if (e.target.style.color === "rgb(114, 138, 11)")
-      e.target.style.color = "rgb(255, 255, 255)";
-    else e.target.style.color = "rgb(114, 138, 11)";
+
+    activeBackground(e);
   };
   const sortAz = (e) => {
     if (flaga) {
@@ -93,7 +78,7 @@ const Filmy = ({ animeMovie }) => {
           (a, b) => new Date(a.aired_from) - new Date(b.aired_from)
         )
       );
-      e.target.innerText = "Od najstarszych";
+      e.target.innerText = "Od najnowszych";
       setFlaga(!flaga);
     } else {
       setData(
@@ -101,7 +86,7 @@ const Filmy = ({ animeMovie }) => {
           (a, b) => new Date(b.aired_from) - new Date(a.aired_from)
         )
       );
-      e.target.innerText = "Od najnowszych";
+      e.target.innerText = "Od najstarszych";
       setFlaga(!flaga);
     }
   };
@@ -110,55 +95,38 @@ const Filmy = ({ animeMovie }) => {
     document.querySelectorAll("button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    if ("all" === e.target.value) setData(animeMovie);
-    else
-      setData(animeMovie.filter((word) => word.series_type === e.target.value));
+    if ("all" === e.target.value) setData(anime);
+    else setData(anime.filter((word) => word.series_type === e.target.value));
   };
   return (
     <div
       className="flex  flex-col justify-start items-start flex-wrap  min-h-screen w-[80vw] mx-auto"
       style={{ maxWidth: "calc(100vw - 81px)" }}
     >
-      <div className="flex flex-row justify-start gap-4  mt-10  w-full">
-        <NavLink
-          to="/"
-          style={{ color: "white" }}
-          onMouseEnter={changeBackground}
-          onMouseLeave={changeBackground2}
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to={location.slice(0, 6)}
-          style={{ color: "white" }}
-          onMouseEnter={changeBackground}
-          onMouseLeave={changeBackground2}
-        >
-          Filmy
-        </NavLink>
-      </div>
+      <Breadcrumbs
+        bcHome={true}
+        bcTyp={useLocation().pathname.slice(1, 6)}
+        bcTitle={false}
+        bcEpisodes={false}
+      />
       <div className="flex justify-between items-center text-white bg-slate-900 w-full p-4 rounded my-10">
         <div>
-          <h1 className="text-xl font-medium">Lista Filmów</h1>
+          <Typography text={`Lista ${page}`} />
           <div className="flex gap-1 my-3" id="sort">
-            <button
-              onClick={(e) => {
-                clickBackground(e);
+            <Genres
+              text="A-Z"
+              click={(e) => {
+                activeBackground(e);
                 sortAz(e);
               }}
-              className="text-sm flex justify-center items-center p-2  bg-gray-950 rounded text-white  text-center  cursor-pointer"
-            >
-              A-Z
-            </button>
-            <button
-              onClick={(e) => {
-                clickBackground(e);
+            />
+            <Genres
+              text="Od najnowszych"
+              click={(e) => {
+                activeBackground(e);
                 sortData(e);
               }}
-              className="text-sm flex justify-center items-center p-2 bg-gray-950 rounded text-white  text-center cursor-pointer"
-            >
-              Od najnowszych
-            </button>
+            />
           </div>
         </div>
         <input
@@ -176,19 +144,19 @@ const Filmy = ({ animeMovie }) => {
         </button>
       </div>
       <div
-        className="mb-10 flex bg-slate-900 w-full rounded p-4"
-        style={genresDisplay ? { display: "none" } : { display: "flex" }}
+        className="mb-10 flex bg-slate-900 w-full rounded transition-all duration-300 ease-linear overflow-hidden overflow-y-hidden"
+        style={genresDisplay ? { height: "0px" } : { height: "200px" }}
       >
-        <div className="flex flex-col w-4/5 gap-4">
-          <h1 className="text-xl font-medium text-white">Tagi</h1>
+        <div className="flex flex-col w-4/5 gap-4 my-4 ml-4">
+          <Typography text={`Tagi`} />
           <div className="flex flex-row flex-wrap  gap-2" id="genres">
             {genres.map((text, id) => (
               <Genres text={text} click={clickGenres} key={id} />
             ))}
           </div>
         </div>
-        <div className="flex flex-col w-1/5 gap-4 ml-5">
-          <h1 className="text-xl font-medium text-white">Rodzaj</h1>
+        <div className="flex flex-col w-1/5 gap-4 ml-5 mt-4">
+          <Typography text={`Rodzaj`} />
           <div className="flex flex-row flex-wrap h-full gap-2">
             <select
               onChange={selectType}
@@ -213,4 +181,4 @@ const Filmy = ({ animeMovie }) => {
   );
 };
 
-export default Filmy;
+export default Anime;

@@ -8,12 +8,13 @@ import Breadcrumbs from "./Breadcrumbs";
 // Import react-icons
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
+import Typography from "./Typography";
 
-const Anime = ({ animeTV }) => {
+const Anime = ({ anime, page }) => {
   const [genres, setGenres] = useState([]);
   const [genresDisplay, setGenresDisplay] = useState(true);
   const [flaga, setFlaga] = useState(true);
-  const [data, setData] = useState(animeTV);
+  const [data, setData] = useState(anime);
   const [text, setText] = useState([]);
   const [type, setTyp] = useState([]);
 
@@ -21,7 +22,7 @@ const Anime = ({ animeTV }) => {
   let gen = [];
 
   useEffect(() => {
-    animeTV.forEach((item) => {
+    anime.forEach((item) => {
       gen = [...gen, ...item.genres];
       gen = Array.from(new Set(gen));
       setGenres(gen);
@@ -33,7 +34,7 @@ const Anime = ({ animeTV }) => {
 
   const searchInput = (e) => {
     setText(e.target.value.toLowerCase());
-    setData(animeTV.filter((word) => word.title.toLowerCase().includes(text)));
+    setData(anime.filter((word) => word.title.toLowerCase().includes(text)));
   };
 
   const displayGenres = () => {
@@ -49,7 +50,7 @@ const Anime = ({ animeTV }) => {
 
   const clickGenres = (e) => {
     setData(
-      animeTV.filter((word) => [...word.genres].includes(e.target.innerText))
+      anime.filter((word) => [...word.genres].includes(e.target.innerText))
     );
     document.querySelector("select").value = "";
     document.querySelectorAll("#genres button").forEach((item) => {
@@ -94,8 +95,8 @@ const Anime = ({ animeTV }) => {
     document.querySelectorAll("button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    if ("all" === e.target.value) setData(animeTV);
-    else setData(animeTV.filter((word) => word.series_type === e.target.value));
+    if ("all" === e.target.value) setData(anime);
+    else setData(anime.filter((word) => word.series_type === e.target.value));
   };
   return (
     <div
@@ -110,7 +111,7 @@ const Anime = ({ animeTV }) => {
       />
       <div className="flex justify-between items-center text-white bg-slate-900 w-full p-4 rounded my-10">
         <div>
-          <h1 className="text-xl font-medium">Lista anime</h1>
+          <Typography text={`Lista ${page}`} />
           <div className="flex gap-1 my-3" id="sort">
             <Genres
               text="A-Z"
@@ -147,7 +148,7 @@ const Anime = ({ animeTV }) => {
         style={genresDisplay ? { height: "0px" } : { height: "200px" }}
       >
         <div className="flex flex-col w-4/5 gap-4 my-4 ml-4">
-          <h1 className="text-xl font-medium text-white">Tagi</h1>
+          <Typography text={`Tagi`} />
           <div className="flex flex-row flex-wrap  gap-2" id="genres">
             {genres.map((text, id) => (
               <Genres text={text} click={clickGenres} key={id} />
@@ -155,7 +156,7 @@ const Anime = ({ animeTV }) => {
           </div>
         </div>
         <div className="flex flex-col w-1/5 gap-4 ml-5 mt-4">
-          <h1 className="text-xl font-medium text-white">Rodzaj</h1>
+          <Typography text={`Rodzaj`} />
           <div className="flex flex-row flex-wrap h-full gap-2">
             <select
               onChange={selectType}

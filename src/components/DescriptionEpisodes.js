@@ -13,6 +13,7 @@ import {
   TbBrandCodesandbox,
 } from "react-icons/tb";
 import { BsArrowsFullscreen } from "react-icons/bs";
+import Genres from "./Genres";
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
@@ -24,6 +25,8 @@ const DescriptionEpisodes = () => {
   const [playerActive, setPlayerActive] = useState();
   const location = useLocation().pathname;
   const slug = location.slice(7, location.length);
+  const navigate = useNavigate();
+
   const slugEpisodesLength = location.slice(
     location.lastIndexOf("/"),
     location.length
@@ -40,7 +43,6 @@ const DescriptionEpisodes = () => {
     0,
     location.length - slugEpisodesLength
   )}/${parseInt(slugEpisodes) + 1}`;
-  const navigate = useNavigate();
 
   useEffect(() => {
     ipcRenderer.send("getEpisodes", `${slug}`);
@@ -159,15 +161,13 @@ const DescriptionEpisodes = () => {
         <div className=" flex gap-2 my-2 p-5">
           {data.map((item) => {
             return (
-              <button
-                className="text-lg border-solid border-2 border-gray-500 rounded-xl text-white px-5 py-2 text-center hover:text-yellow-500"
-                key={item.id}
-                onClick={(e) => {
+              <Genres
+                text={`${item.player_hosting} - ${item.translator_title}`}
+                click={(e) => {
                   setPlayerActive(item);
                 }}
-              >
-                {item.player_hosting} - {item.translator_title}
-              </button>
+                key={item.id}
+              />
             );
           })}
         </div>
