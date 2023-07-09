@@ -9,6 +9,7 @@ import Anime from "./Anime";
 import Galeria from "./Galeria";
 import DescriptionEpisodes from "./DescriptionEpisodes";
 import Filmy from "./Filmy";
+import Spinners from "./Spinners";
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
@@ -59,7 +60,7 @@ function App() {
       </div>
     </div>
   ) : (
-    <></>
+    <Spinners />
   );
 }
 

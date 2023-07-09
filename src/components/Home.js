@@ -8,6 +8,7 @@ import { FreeMode, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import Spinners from "./Spinners";
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
@@ -63,7 +64,7 @@ const Home = () => {
       }
     }
   };
-  if (data !== undefined)
+  if (data !== undefined) {
     return (
       <div
         className=" flex flex-col overflow-hidden justify-start items-center min-h-screen w-[80vw] mx-auto"
@@ -87,31 +88,34 @@ const Home = () => {
           modules={[FreeMode, Pagination, Autoplay]}
           className="mySwiper h-[300px] w-full my-10"
         >
-          {data
-            ? data.map((item, key) => (
-                <SwiperSlide
-                  style={{ marginTop: "0" }}
-                  className="bg-cover "
-                  key={key}
-                >
-                  <NavLink to={`/anime/${item.slug}`}>
-                    <div className="relative after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:z-[0] after:bg-gradient-to-tl after:from-[rgba(0,0,0,0)] after:to-[rgba(0,0,0,0.3)]">
-                      <img
-                        src={item.cover}
-                        alt=""
-                        className="rounded-xl object-cover h-[300px] "
-                      />
-                    </div>
-                    <div className="absolute bottom-0 left-0 w-4/5 text-white font-bold m-3 text-sm">
-                      {item.title}
-                    </div>
-                  </NavLink>
-                </SwiperSlide>
-              ))
-            : "aa"}
+          {data ? (
+            data.map((item, key) => (
+              <SwiperSlide
+                style={{ marginTop: "0" }}
+                className="bg-cover "
+                key={key}
+              >
+                <NavLink to={`/anime/${item.slug}`}>
+                  <div className="relative after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:z-[0] after:bg-gradient-to-tl after:from-[rgba(0,0,0,0)] after:to-[rgba(0,0,0,0.3)]">
+                    <img
+                      src={item.cover}
+                      alt=""
+                      className="rounded-xl object-cover h-[300px] "
+                    />
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-4/5 text-white font-bold m-3 text-sm">
+                    {item.title}
+                  </div>
+                </NavLink>
+              </SwiperSlide>
+            ))
+          ) : (
+            <Spinners />
+          )}
         </Swiper>
       </div>
     );
+  }
 };
 
 export default Home;

@@ -5,10 +5,11 @@ import { useLocation } from "react-router-dom";
 import ItemAnime from "./ItemAnime";
 import Genres from "./Genres";
 import Breadcrumbs from "./Breadcrumbs";
+import Typography from "./Typography";
+import Spinners from "./Spinners";
 // Import react-icons
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
-import Typography from "./Typography";
 
 const Anime = ({ anime, page }) => {
   const [genres, setGenres] = useState([]);
@@ -17,7 +18,7 @@ const Anime = ({ anime, page }) => {
   const [data, setData] = useState(anime);
   const [text, setText] = useState([]);
   const [type, setTyp] = useState([]);
-
+  const location = useLocation().pathname;
   let typ = [];
   let gen = [];
 
@@ -98,14 +99,15 @@ const Anime = ({ anime, page }) => {
     if ("all" === e.target.value) setData(anime);
     else setData(anime.filter((word) => word.series_type === e.target.value));
   };
-  return (
+
+  return genres ? (
     <div
       className="flex  flex-col justify-start items-start flex-wrap  min-h-screen w-[80vw] mx-auto"
       style={{ maxWidth: "calc(100vw - 81px)" }}
     >
       <Breadcrumbs
         bcHome={true}
-        bcTyp={useLocation().pathname.slice(1, 6)}
+        bcTyp={location.slice(1, 6)}
         bcTitle={false}
         bcEpisodes={false}
       />
@@ -178,6 +180,8 @@ const Anime = ({ anime, page }) => {
         ))}
       </div>
     </div>
+  ) : (
+    <Spinners />
   );
 };
 
