@@ -45,3 +45,9 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(51, 56, 68);
 }
+
+.swpierNew .swiper-slide {
+  height: calc((100% - 15px) / 2) !important;
+
+  /* Center slide text vertically */
+}

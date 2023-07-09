@@ -64,7 +64,6 @@ const DescriptionEpisodes = () => {
       },
       []
     );
-    console.log(dataAnime.episodes);
   }, []);
 
   const fullScreen = (e) => {
@@ -82,99 +81,97 @@ const DescriptionEpisodes = () => {
       setH(window.innerHeight * 0.7);
     }
   };
-
-  return data[0] ? (
-    <div
-      className="text-white flex flex-col  items-center h-screen bg-cover min-h-screen w-[80vw] mx-auto"
-      style={{ maxWidth: "calc(100vw - 81px)" }}
-    >
-      <Breadcrumbs
-        bcHome={true}
-        bcTyp={location.slice(1, 6)}
-        bcTitle={slug.slice(0, slug.length - slugEpisodesLength)}
-        bcTitleText={dataAnime.title}
-        bcEpisodes={slugEpisodes}
-      />
-      <div className="flex justify-center items-center m-3 p-3 gap-4">
-        <NavLink
-          to={popEpisodes}
-          onClick={() => {
-            navigate(popEpisodes);
-            navigate(0);
-          }}
-          style={
-            slugEpisodes === "1"
-              ? { cursor: "not-allowed", color: "white" }
-              : { cursor: "default", color: "white" }
-          }
-        >
-          <IconContext.Provider
-            value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}
+  if (data[0])
+    return (
+      <div
+        className="text-white flex flex-col  items-center h-screen bg-cover min-h-screen w-[80vw] mx-auto"
+        style={{ maxWidth: "calc(100vw - 81px)" }}
+      >
+        <Breadcrumbs
+          bcHome={true}
+          bcTyp={location.slice(1, 6)}
+          bcTitle={slug.slice(0, slug.length - slugEpisodesLength)}
+          bcTitleText={dataAnime.title}
+          bcEpisodes={slugEpisodes}
+        />
+        <div className="flex justify-center items-center m-3 p-3 gap-4">
+          <NavLink
+            to={popEpisodes}
+            onClick={() => {
+              navigate(popEpisodes);
+              navigate(0);
+            }}
+            style={
+              slugEpisodes === "1"
+                ? { cursor: "not-allowed", color: "white" }
+                : { cursor: "default", color: "white" }
+            }
           >
-            <TbPlayerTrackPrev />
-          </IconContext.Provider>
-        </NavLink>
-        <NavLink
-          to={location.slice(0, location.length - slugEpisodesLength)}
-          style={{ color: "white" }}
-        >
-          <IconContext.Provider
-            value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}
+            <IconContext.Provider
+              value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}
+            >
+              <TbPlayerTrackPrev />
+            </IconContext.Provider>
+          </NavLink>
+          <NavLink
+            to={location.slice(0, location.length - slugEpisodesLength)}
+            style={{ color: "white" }}
           >
-            <TbBrandCodesandbox />
-          </IconContext.Provider>
-        </NavLink>
-        <butin
-          className="cursor-pointer text-white z-50"
-          onClick={(e) => fullScreen(e)}
-        >
-          <IconContext.Provider
-            value={{ className: "text-3xl mx-3 hover:text-yellow-500" }}
+            <IconContext.Provider
+              value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}
+            >
+              <TbBrandCodesandbox />
+            </IconContext.Provider>
+          </NavLink>
+          <butin
+            className="cursor-pointer text-white z-50"
+            onClick={(e) => fullScreen(e)}
           >
-            <BsArrowsFullscreen />
-          </IconContext.Provider>
-        </butin>
-        <NavLink
-          to={nextEpisodes}
-          onClick={() => {
-            navigate(nextEpisodes);
-            navigate(0);
-          }}
-          style={
-            dataAnime.episodes === parseInt(slugEpisodes)
-              ? { cursor: "not-allowed", color: "white" }
-              : { cursor: "default", color: "white" }
-          }
-        >
-          <IconContext.Provider
-            value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}
+            <IconContext.Provider
+              value={{ className: "text-3xl mx-3 hover:text-yellow-500" }}
+            >
+              <BsArrowsFullscreen />
+            </IconContext.Provider>
+          </butin>
+          <NavLink
+            to={nextEpisodes}
+            onClick={() => {
+              navigate(nextEpisodes);
+              navigate(0);
+            }}
+            style={
+              dataAnime.episodes === parseInt(slugEpisodes)
+                ? { cursor: "not-allowed", color: "white" }
+                : { cursor: "default", color: "white" }
+            }
           >
-            <TbPlayerTrackNext />
-          </IconContext.Provider>
-        </NavLink>
+            <IconContext.Provider
+              value={{ className: "text-4xl mx-3 hover:text-yellow-500" }}
+            >
+              <TbPlayerTrackNext />
+            </IconContext.Provider>
+          </NavLink>
+        </div>
+        {playerActive ? (
+          <PalyerEpisodes item={playerActive} h={h} w={w} />
+        ) : (
+          <PalyerEpisodes item={data[0]} h={h} w={w} />
+        )}
+        <div className=" flex gap-2 my-2 p-5">
+          {data.map((item) => {
+            return (
+              <Genres
+                text={`${item.player_hosting} - ${item.translator_title}`}
+                click={(e) => {
+                  setPlayerActive(item);
+                }}
+                key={item.id}
+              />
+            );
+          })}
+        </div>
       </div>
-      {playerActive ? (
-        <PalyerEpisodes item={playerActive} h={h} w={w} />
-      ) : (
-        <PalyerEpisodes item={data[0]} h={h} w={w} />
-      )}
-      <div className=" flex gap-2 my-2 p-5">
-        {data.map((item) => {
-          return (
-            <Genres
-              text={`${item.player_hosting} - ${item.translator_title}`}
-              click={(e) => {
-                setPlayerActive(item);
-              }}
-              key={item.id}
-            />
-          );
-        })}
-      </div>
-    </div>
-  ) : (
-    <Spinners />
-  );
+    );
 };
 
 export default DescriptionEpisodes;

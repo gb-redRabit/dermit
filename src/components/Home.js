@@ -1,25 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 // Import element componets
 import Breadcrumbs from "./Breadcrumbs";
-// Import Swiper styles and script
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/pagination";
-import Spinners from "./Spinners";
+import Typography from "./Typography";
+import Swip from "./Swip";
+
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
 const Home = () => {
   const [data, setData] = useState();
   const [dataAnime, setDataAnime] = useState({ hits: [] });
-
+  const [dataNewAnime, setDataNewAnime] = useState({ hits: [] });
+  const [dataNotAnime, setDataNotAnime] = useState({ hits: [] });
   useEffect(() => {
     ipcRenderer.send("start", "api");
     ipcRenderer.on("startOn", (e, d) => {
       setDataAnime(JSON.parse(d));
+    });
+  }, []);
+  useEffect(() => {
+    ipcRenderer.send(
+      "api",
+      `https://api.docchi.pl/v1/episodes/latest?season=${changeSeazon()}&season_year=${new Date().getFullYear()}"`
+    );
+    ipcRenderer.on("apiSend", (e, d) => {
+      setDataNewAnime(JSON.parse(d));
+    });
+  }, []);
+  useEffect(() => {
+    ipcRenderer.send(
+      "apiTwo",
+      `https://api.docchi.pl/v1/episodes/latest?season=${changeSeazon()}&season_year=${new Date().getFullYear()}&type=not`
+    );
+    ipcRenderer.on("apiSendTwo", (e, d) => {
+      setDataNotAnime(JSON.parse(d));
     });
   }, []);
   useEffect(() => {
@@ -64,6 +78,7 @@ const Home = () => {
       }
     }
   };
+
   if (data !== undefined) {
     return (
       <div
@@ -71,48 +86,14 @@ const Home = () => {
         style={{ maxWidth: "calc(100vw - 81px)" }}
       >
         <Breadcrumbs />
-        <h1 className="text-xl font-medium text-white">{`${changeSeazon(
-          "pl"
-        )} ${new Date().getFullYear()}`}</h1>
-        <Swiper
-          autoplay={{
-            delay: 1500,
-            disableOnInteraction: false,
-          }}
-          slidesPerView={6}
-          spaceBetween={30}
-          freeMode={true}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[FreeMode, Pagination, Autoplay]}
-          className="mySwiper h-[300px] w-full my-10"
-        >
-          {data ? (
-            data.map((item, key) => (
-              <SwiperSlide
-                style={{ marginTop: "0" }}
-                className="bg-cover "
-                key={key}
-              >
-                <NavLink to={`/anime/${item.slug}`}>
-                  <div className="relative after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:z-[0] after:bg-gradient-to-tl after:from-[rgba(0,0,0,0)] after:to-[rgba(0,0,0,0.3)]">
-                    <img
-                      src={item.cover}
-                      alt=""
-                      className="rounded-xl object-cover h-[300px] "
-                    />
-                  </div>
-                  <div className="absolute bottom-0 left-0 w-4/5 text-white font-bold m-3 text-sm">
-                    {item.title}
-                  </div>
-                </NavLink>
-              </SwiperSlide>
-            ))
-          ) : (
-            <Spinners />
-          )}
-        </Swiper>
+        <Typography
+          text={`${changeSeazon("pl")} ${new Date().getFullYear()}`}
+        />
+        <Swip data={dataAnime} />
+        <Typography text={`Nowe odcinki`} />
+        <Swip data={dataNewAnime} type="grid" />
+        <Typography text={`Nieemitowane odcinki`} />
+        <Swip data={dataNotAnime} />
       </div>
     );
   }
