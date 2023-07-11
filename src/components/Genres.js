@@ -5,7 +5,7 @@ const Genres = ({ text, typ, click }) => {
     return (
       <button
         onClick={click}
-        className="text-sm flex justify-center items-center p-2  bg-gray-950 rounded text-white  text-center hover:text-yellow-500 cursor-pointer"
+        className="text-sm flex justify-center items-center p-2  bg-gray-950 rounded text-white  text-center hover:text-yellow-500 hover:bg-gray-600 cursor-pointer"
       >
         {text}
       </button>

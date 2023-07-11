@@ -2,6 +2,20 @@
 
 This project was bootstrapped with [Electron],[Create-React-App],[cross-env],[concurrently],[electron-is-dev],[electron-builder],[react-router-dom]
 
+
+## Roadmap
+
+- [ ]  Poprawić CSS
+- [ ]  Poprawić design
+- [ ]  Poprawić łaczność elektron - react
+- [ ]  Dodać motywy
+- [ ]  Wyczyścić kod 
+- [ ]  Rozbudować react context oraz rozbudować kod oraz zoptymalizować  / (Redux/mobx) ???
+- [ ]  React Router - popawić 
+- [ ]  Auto-dodowanie/ukrywanie elemetów/itemów odcinków
+- [ ]  Zrobić plik Readme
+
+
 ## Available Scripts
 
 In the project directory, you can run:

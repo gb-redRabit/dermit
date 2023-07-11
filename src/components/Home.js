@@ -93,7 +93,7 @@ const Home = () => {
         <Typography text={`Nowe odcinki`} />
         <Swip data={dataNewAnime} type="grid" />
         <Typography text={`Nieemitowane odcinki`} />
-        <Swip data={dataNotAnime} />
+        <Swip data={dataNotAnime} type="grid" />
       </div>
     );
   }

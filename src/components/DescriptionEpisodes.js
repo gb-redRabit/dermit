@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import PalyerEpisodes from "./PalyerEpisodes";
 import Breadcrumbs from "./Breadcrumbs";
 import Genres from "./Genres";
-import Spinners from "./Spinners";
 // Import react-icons
 import { IconContext } from "react-icons";
 import {

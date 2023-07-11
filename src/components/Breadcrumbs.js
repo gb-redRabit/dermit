@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
 const activeEnd = (e) => {
   e.target.style.color = "#728a0b";
 };

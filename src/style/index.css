@@ -47,7 +47,19 @@
 }
 
 .swpierNew .swiper-slide {
-  height: calc((100% - 15px) / 2) !important;
+  height: calc((100% - 30px) / 2) !important;
+}
 
-  /* Center slide text vertically */
+.swiper-button-next::after,.swiper-button-prev::after{
+    min-height: 50px !important;
+    min-width: 50px !important;
+    background: rgb(2, 6, 23) !important;
+    z-index: 50 !important;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff !important;
+    font-size: 15px !important;
+
 }

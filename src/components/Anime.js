@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 // Import element componets
 import ItemAnime from "./ItemAnime";
@@ -11,11 +11,15 @@ import Spinners from "./Spinners";
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
 
-const Anime = ({ anime, page }) => {
+import { AppContext } from "./AppContext";
+
+const Anime = ({ page }) => {
+  const { animeTV } = useContext(AppContext);
+
   const [genres, setGenres] = useState([]);
   const [genresDisplay, setGenresDisplay] = useState(true);
   const [flaga, setFlaga] = useState(true);
-  const [data, setData] = useState(anime);
+  const [data, setData] = useState(animeTV);
   const [text, setText] = useState([]);
   const [type, setTyp] = useState([]);
   const location = useLocation().pathname;
@@ -23,7 +27,7 @@ const Anime = ({ anime, page }) => {
   let gen = [];
 
   useEffect(() => {
-    anime.forEach((item) => {
+    data.forEach((item) => {
       gen = [...gen, ...item.genres];
       gen = Array.from(new Set(gen));
       setGenres(gen);
@@ -35,7 +39,7 @@ const Anime = ({ anime, page }) => {
 
   const searchInput = (e) => {
     setText(e.target.value.toLowerCase());
-    setData(anime.filter((word) => word.title.toLowerCase().includes(text)));
+    setData(data.filter((word) => word.title.toLowerCase().includes(text)));
   };
 
   const displayGenres = () => {
@@ -51,7 +55,7 @@ const Anime = ({ anime, page }) => {
 
   const clickGenres = (e) => {
     setData(
-      anime.filter((word) => [...word.genres].includes(e.target.innerText))
+      data.filter((word) => [...word.genres].includes(e.target.innerText))
     );
     document.querySelector("select").value = "";
     document.querySelectorAll("#genres button").forEach((item) => {
@@ -96,8 +100,8 @@ const Anime = ({ anime, page }) => {
     document.querySelectorAll("button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    if ("all" === e.target.value) setData(anime);
-    else setData(anime.filter((word) => word.series_type === e.target.value));
+    if ("all" === e.target.value) setData(data);
+    else setData(data.filter((word) => word.series_type === e.target.value));
   };
 
   return genres ? (

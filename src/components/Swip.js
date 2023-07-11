@@ -1,30 +1,27 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Spinners from "./Spinners";
 
 // Import Swiper styles and script
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Autoplay, Grid } from "swiper/modules";
+import { FreeMode, Autoplay, Grid, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 import "swiper/css/grid";
 
 const Swip = ({ data, type = "" }) => {
   if (type === "grid") {
     return (
       <Swiper
-        slidesPerView={8}
-        autoplay={{
-          delay: 1500,
-          disableOnInteraction: false,
-        }}
+        navigation={true}
+        slidesPerView={6}
         grid={{
           rows: 2,
         }}
-        spaceBetween={15}
-        modules={[Grid, Autoplay]}
-        className="mySwiper h-[520px] w-full my-10 swpierNew"
+        spaceBetween={30}
+        modules={[Grid, Navigation]}
+        className="mySwiper h-[700px] w-full my-10 swpierNew"
       >
         {data[0]
           ? data.map((item, key) => (
@@ -40,12 +37,12 @@ const Swip = ({ data, type = "" }) => {
                     <img
                       src={item.cover}
                       alt=""
-                      className="rounded-xl object-cover h-[250px] w-full"
+                      className="rounded-xl object-cover h-[340px] w-full"
                     />
                   </div>
                   <div className="absolute bottom-0 left-0 w-4/5 text-white  m-3 text-sm">
                     <p className="text-sm">{item.title}</p>
-                    <p className="text-gray-950 text-sm font-medium">
+                    <p className="text-gray-400 text-sm font-medium">
                       Odcinek {item.anime_episode_number}
                     </p>
                   </div>
