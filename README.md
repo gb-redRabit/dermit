@@ -4,7 +4,11 @@ This project was bootstrapped with [Electron],[Create-React-App],[cross-env],[co
 
 
 ## Roadmap
-
+- [x]  Połączyć reacta - elektron za pomocą ipc
+- [x]  Dodać menu i połaczyć z react router
+- [x]  Zbudować proste komponety wraz z logiką strony  
+- [x]  Dodać Twalding CSS i ostylować elemety 
+- [ ]  Rozdrobnienie na wiecej elemetów aby były bardziej uniwersalne  
 - [ ]  Poprawić CSS
 - [ ]  Poprawić design
 - [ ]  Poprawić łaczność elektron - react
