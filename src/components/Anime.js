@@ -14,32 +14,34 @@ import { CgMenuGridR } from "react-icons/cg";
 import { AppContext } from "./AppContext";
 
 const Anime = ({ page }) => {
-  const { animeTV } = useContext(AppContext);
-
+  const { anime } = useContext(AppContext);
+  const [data, setData] = useState(anime);
   const [genres, setGenres] = useState([]);
+  const [type, setType] = useState([]);
+  const [text, setText] = useState([]);
+
   const [genresDisplay, setGenresDisplay] = useState(true);
   const [flaga, setFlaga] = useState(true);
-  const [data, setData] = useState(animeTV);
-  const [text, setText] = useState([]);
-  const [type, setTyp] = useState([]);
+  const [loaderLimit, setloaderLimit] = useState(25);
+
   const location = useLocation().pathname;
-  let typ = [];
-  let gen = [];
 
   useEffect(() => {
     data.forEach((item) => {
-      gen = [...gen, ...item.genres];
-      gen = Array.from(new Set(gen));
-      setGenres(gen);
-      typ = [...typ, item.series_type];
-      typ = Array.from(new Set(typ));
-      setTyp(typ);
+      setGenres(
+        (preValue) =>
+          (preValue = Array.from(new Set([...preValue, ...item.genres])))
+      );
+      setType(
+        (preValue) =>
+          (preValue = Array.from(new Set([...preValue, item.series_type])))
+      );
     });
   }, []);
 
   const searchInput = (e) => {
     setText(e.target.value.toLowerCase());
-    setData(data.filter((word) => word.title.toLowerCase().includes(text)));
+    setData(anime.filter((word) => word.title.toLowerCase().includes(text)));
   };
 
   const displayGenres = () => {
@@ -54,8 +56,9 @@ const Anime = ({ page }) => {
   };
 
   const clickGenres = (e) => {
+    setloaderLimit(25);
     setData(
-      data.filter((word) => [...word.genres].includes(e.target.innerText))
+      anime.filter((word) => [...word.genres].includes(e.target.innerText))
     );
     document.querySelector("select").value = "";
     document.querySelectorAll("#genres button").forEach((item) => {
@@ -65,6 +68,7 @@ const Anime = ({ page }) => {
     activeBackground(e);
   };
   const sortAz = (e) => {
+    setloaderLimit(25);
     if (flaga) {
       setData([...data].sort((a, b) => b.title.localeCompare(a.title)));
       e.target.innerText = "Z-A";
@@ -77,6 +81,7 @@ const Anime = ({ page }) => {
   };
 
   const sortData = (e) => {
+    setloaderLimit(25);
     if (flaga) {
       setData(
         [...data].sort(
@@ -97,12 +102,21 @@ const Anime = ({ page }) => {
   };
 
   const selectType = (e) => {
+    setloaderLimit(25);
     document.querySelectorAll("button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    if ("all" === e.target.value) setData(data);
-    else setData(data.filter((word) => word.series_type === e.target.value));
+    if ("all" === e.target.value) setData(anime);
+    else setData(anime.filter((word) => word.series_type === e.target.value));
   };
+
+  window.addEventListener("scroll", (e) => {
+    if (
+      window.scrollY > document.body.offsetHeight - 1200 &&
+      loaderLimit <= data.length
+    )
+      setloaderLimit((preValue) => (preValue += 25));
+  });
 
   return genres ? (
     <div
@@ -178,10 +192,10 @@ const Anime = ({ page }) => {
           </div>
         </div>
       </div>
-      <div className="flex  justify-center items-center flex-wrap ">
-        {data.map((item, id) => (
-          <ItemAnime item={item} key={id} />
-        ))}
+      <div className=" flex  justify-center items-center flex-wrap ">
+        {data.map((item, id) =>
+          id >= loaderLimit ? "" : <ItemAnime item={item} key={id} />
+        )}
       </div>
     </div>
   ) : (

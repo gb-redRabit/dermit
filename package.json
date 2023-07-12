@@ -9,6 +9,7 @@
   "license": "UNLICENSED",
   "description ": "description",
   "dependencies": {
+    "@emotion/react": "^11.11.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -16,12 +17,13 @@
     "electron-fetch": "^1.9.1",
     "jquery": "^3.7.0",
     "react": "^18.2.0",
+    "react-awesome-reveal": "^4.2.5",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
-    "swiper": "^10.0.3",
+    "scrollreveal": "^4.0.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

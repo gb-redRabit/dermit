@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useContext } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 // Import element componets
 import Nav from "./Nav";
@@ -9,22 +9,17 @@ import Anime from "./Anime";
 import Galeria from "./Galeria";
 import DescriptionEpisodes from "./DescriptionEpisodes";
 import Filmy from "./Filmy";
-import Spinners from "./Spinners";
-import AppProvider from "./AppContext";
-import Breadcrumbs from "./Breadcrumbs";
-// Import electon modul Inter-Process Communication
-const { ipcRenderer } = window.require("electron");
 
 function App() {
   return (
     <div className="flex min-h-screen">
       <Nav />
       <div
-        className="bg-slate-950 pl-16 flex"
-        style={{ maxWidth: "calc(100vw)", width: "calc(100vw )" }}
+        className="bg-slate-950 ml-16 flex"
+        style={{ maxWidth: "calc(100vw - 64px)", width: "calc(100vw - 64px)" }}
       >
         <Routes>
-          <Route path="/" exact element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/anime" element={<Anime page="anime" />} />
           <Route path="/movie" element={<Filmy page="filmy" />} />
           <Route path="/galeria" element={<Galeria />} />
