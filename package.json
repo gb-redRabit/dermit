@@ -29,9 +29,22 @@
   },
   "scripts": {
     "dev": "concurrently -k \"cross-env BROWSER=none react-scripts start\" \"wait-on http://127.0.0.1:3000 && electron .\" -k",
-    "bulid": "react-scripts build && electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never"
+    "bulid": "react-scripts build && electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",
+    "portable": "react-scripts build && electron-builder build --win=portable -c.extraMetadata.main=build/electron.js --publish never"
   },
   "build": {
+    "appId": "dermit",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "license": "license.md",
+      "allowToChangeInstallationDirectory": true
+    },
     "files": [
       "build/**/*",
       "src/**/*",

@@ -3,14 +3,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 // Import react-icons
 import { IconContext } from "react-icons";
-import {
-  TfiGallery,
-  TfiVideoClapper,
-  TfiHome,
-  TfiAlert,
-} from "react-icons/tfi";
-import { GiHoodedAssassin } from "react-icons/gi";
+import { TfiGallery, TfiVideoClapper, TfiHome } from "react-icons/tfi";
+import { FaJedi } from "react-icons/fa";
 import { FaDoorClosed } from "react-icons/fa";
+import { AiOutlineAlipay } from "react-icons/ai";
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
@@ -22,7 +18,7 @@ const Nav = () => {
   return (
     <nav className="fixed flex flex-col py-7 justify-between items-center w-16 h-screen  text-white bg-slate-900 overflow-hidden">
       <IconContext.Provider value={{ className: "text-4xl" }}>
-        <GiHoodedAssassin />
+        <FaJedi />
       </IconContext.Provider>
       <ul className="">
         <li className="flex justify-center items-center text-2xl p-3 rounded cursor-pointer hover:bg-slate-700">
@@ -35,7 +31,7 @@ const Nav = () => {
         <li className="flex justify-center items-center text-2xl p-3 rounded cursor-pointer hover:bg-slate-700">
           <NavLink to="/anime">
             <IconContext.Provider value={{ className: "" }}>
-              <TfiAlert />
+              <AiOutlineAlipay />
             </IconContext.Provider>
           </NavLink>
         </li>

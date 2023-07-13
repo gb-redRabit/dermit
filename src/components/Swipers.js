@@ -15,7 +15,7 @@ const Swipers = ({ data, type }) => {
         modules={[Autoplay, Pagination]}
         autoplay={{
           delay: 2500,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
         pagination={{
           dynamicBullets: true,
@@ -56,9 +56,13 @@ const Swipers = ({ data, type }) => {
   else
     return (
       <Swiper
-        modules={[Navigation]}
+        modules={[Navigation, Autoplay]}
         navigation={true}
         spaceBetween={10}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: true,
+        }}
         slidesPerView={4}
         className=" w-[97%] h-[400px]  my-10"
       >
