@@ -16,7 +16,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="fixed flex flex-col py-7 justify-between items-center w-16 h-screen  text-white bg-slate-900 overflow-hidden">
+    <nav className="fixed flex flex-col py-7 justify-between items-center w-16 h-screen  text-white bg-slate-900 overflow-hidden z-10">
       <IconContext.Provider value={{ className: "text-4xl" }}>
         <FaJedi />
       </IconContext.Provider>

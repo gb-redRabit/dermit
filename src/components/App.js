@@ -10,13 +10,14 @@ import Galeria from "./Galeria";
 import DescriptionEpisodes from "./DescriptionEpisodes";
 import Filmy from "./Filmy";
 import ErrorPage from "./ErrorPage";
+import Particles from "./Particles";
 
 function App() {
   return (
     <div className="flex min-h-screen">
       <Nav />
       <div
-        className="bg-slate-950 ml-16 flex"
+        className="bg-slate-950 ml-16 flex relative "
         style={{ maxWidth: "calc(100vw - 64px)", width: "calc(100vw - 64px)" }}
       >
         <Routes>

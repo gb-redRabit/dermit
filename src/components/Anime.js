@@ -6,7 +6,6 @@ import ItemAnime from "./ItemAnime";
 import Genres from "./Genres";
 import Breadcrumbs from "./Breadcrumbs";
 import Typography from "./Typography";
-import Spinners from "./Spinners";
 // Import react-icons
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
