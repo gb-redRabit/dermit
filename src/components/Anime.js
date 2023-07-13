@@ -10,8 +10,8 @@ import Spinners from "./Spinners";
 // Import react-icons
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
-
 import { AppContext } from "./AppContext";
+import ButtonScrol from "./ButtonScrol";
 
 const Anime = ({ page }) => {
   const { anime } = useContext(AppContext);
@@ -22,7 +22,7 @@ const Anime = ({ page }) => {
 
   const [genresDisplay, setGenresDisplay] = useState(true);
   const [flaga, setFlaga] = useState(true);
-  const [loaderLimit, setloaderLimit] = useState(25);
+  const [loaderLimit, setloaderLimit] = useState(30);
 
   const location = useLocation().pathname;
 
@@ -37,6 +37,17 @@ const Anime = ({ page }) => {
           (preValue = Array.from(new Set([...preValue, item.series_type])))
       );
     });
+
+    const addItem = (e) => {
+      if (window.scrollY > document.body.offsetHeight - 1300) {
+        setloaderLimit((preValue) => (preValue += 7));
+      }
+    };
+
+    window.addEventListener("scroll", addItem, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", addItem);
+    };
   }, []);
 
   const searchInput = (e) => {
@@ -48,40 +59,44 @@ const Anime = ({ page }) => {
     setGenresDisplay(!genresDisplay);
   };
 
-  const activeBackground = (e) => {
-    document.querySelectorAll("#sort button").forEach((item) => {
+  const clickGenres = (e) => {
+    setloaderLimit(30);
+
+    document.querySelectorAll(" button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
-    e.target.style.color = "rgb(114, 138, 11)";
-  };
 
-  const clickGenres = (e) => {
-    setloaderLimit(25);
     setData(
       anime.filter((word) => [...word.genres].includes(e.target.innerText))
     );
     document.querySelector("select").value = "";
-    document.querySelectorAll("#genres button").forEach((item) => {
+  };
+
+  const sortAz = (e) => {
+    setloaderLimit(30);
+
+    document.querySelectorAll("#sort button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
 
-    activeBackground(e);
-  };
-  const sortAz = (e) => {
-    setloaderLimit(25);
     if (flaga) {
       setData([...data].sort((a, b) => b.title.localeCompare(a.title)));
-      e.target.innerText = "Z-A";
+      e.target.innerHTML = `Z-A`;
       setFlaga(!flaga);
     } else {
       setData([...data].sort((a, b) => a.title.localeCompare(b.title)));
-      e.target.innerText = "A-Z";
+      e.target.innerHTML = "A-Z";
       setFlaga(!flaga);
     }
   };
 
   const sortData = (e) => {
-    setloaderLimit(25);
+    setloaderLimit(30);
+
+    document.querySelectorAll("#sort button").forEach((item) => {
+      item.style.color = "rgb(255, 255, 255)";
+    });
+
     if (flaga) {
       setData(
         [...data].sort(
@@ -101,28 +116,45 @@ const Anime = ({ page }) => {
     }
   };
 
+  const sortEpisodes = (e) => {
+    setloaderLimit(30);
+
+    document.querySelectorAll("#sort button").forEach((item) => {
+      item.style.color = "rgb(255, 255, 255)";
+    });
+
+    if (flaga) {
+      setData(
+        [...data].sort((a, b) => new Date(a.episodes) - new Date(b.episodes))
+      );
+      e.target.innerText = "Od najmniejszej ilości";
+      setFlaga(!flaga);
+    } else {
+      setData(
+        [...data].sort((a, b) => new Date(b.episodes) - new Date(a.episodes))
+      );
+      e.target.innerText = "Od najwiekszej ilości";
+      setFlaga(!flaga);
+    }
+  };
+
   const selectType = (e) => {
-    setloaderLimit(25);
+    setloaderLimit(30);
+
     document.querySelectorAll("button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
+
     if ("all" === e.target.value) setData(anime);
     else setData(anime.filter((word) => word.series_type === e.target.value));
   };
 
-  window.addEventListener("scroll", (e) => {
-    if (
-      window.scrollY > document.body.offsetHeight - 1200 &&
-      loaderLimit <= data.length
-    )
-      setloaderLimit((preValue) => (preValue += 25));
-  });
-
-  return genres ? (
+  return (
     <div
       className="flex  flex-col justify-start items-start flex-wrap  min-h-screen w-[80vw] mx-auto"
       style={{ maxWidth: "calc(100vw - 81px)" }}
     >
+      <ButtonScrol />
       <Breadcrumbs
         bcHome={true}
         bcTyp={location.slice(1, 6)}
@@ -136,32 +168,43 @@ const Anime = ({ page }) => {
             <Genres
               text="A-Z"
               click={(e) => {
-                activeBackground(e);
                 sortAz(e);
               }}
             />
             <Genres
               text="Od najnowszych"
               click={(e) => {
-                activeBackground(e);
                 sortData(e);
+              }}
+            />
+            <Genres
+              text="Od najwiekszej ilości"
+              click={(e) => {
+                sortEpisodes(e);
               }}
             />
           </div>
         </div>
-        <input
-          type="search"
-          name="search"
-          value={text}
-          placeholder="szukaj..."
-          className="h-14 w-4/12 block py-2 px-2 text-xl text-gray-500 bg-gray-950 border-0 border-b-2 border-gray-500 appearance-none rounded"
-          onChange={searchInput}
-        />
-        <button onClick={displayGenres} className="hover:text-yellow-500">
-          <IconContext.Provider value={{ className: "text-4xl" }}>
-            <CgMenuGridR />
-          </IconContext.Provider>
-        </button>
+        <div className="flex justify-center items-center">
+          <input
+            type="search"
+            name="search"
+            value={text}
+            placeholder="szukaj..."
+            className="h-14 w-full block py-2 px-2 text-xl text-gray-500 bg-gray-950 border-0 border-b-2 border-gray-500 appearance-none rounded"
+            onChange={searchInput}
+          />
+          <button
+            onClick={displayGenres}
+            className=" h-16 w-16 hover:text-yellow-500"
+          >
+            <IconContext.Provider
+              value={{ className: "h-full w-full bg-slate-900  " }}
+            >
+              <CgMenuGridR />
+            </IconContext.Provider>
+          </button>
+        </div>
       </div>
       <div
         className="mb-10 flex bg-slate-900 w-full rounded transition-all duration-300 ease-linear overflow-hidden overflow-y-hidden"
@@ -192,14 +235,16 @@ const Anime = ({ page }) => {
           </div>
         </div>
       </div>
-      <div className=" flex  justify-center items-center flex-wrap ">
+      <div className=" flex  justify-center items-center flex-wrap my-4 ">
         {data.map((item, id) =>
-          id >= loaderLimit ? "" : <ItemAnime item={item} key={id} />
+          id >= loaderLimit ? (
+            ""
+          ) : (
+            <ItemAnime item={item} key={id} over={true} />
+          )
         )}
       </div>
     </div>
-  ) : (
-    <Spinners />
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-
+import Spinners from "./Spinners";
 const PalyerEpisodes = ({ item, w, h }) => {
   let src;
   if (item.player_hosting === "CDA") {
@@ -14,7 +14,7 @@ const PalyerEpisodes = ({ item, w, h }) => {
   }
 
   if (h !== window.innerHeight) {
-    return (
+    return item ? (
       <iframe
         src={src}
         title="player"
@@ -22,9 +22,11 @@ const PalyerEpisodes = ({ item, w, h }) => {
         className="z-10 "
         style={{ width: `${w}px`, height: `${h}px` }}
       />
+    ) : (
+      <Spinners />
     );
   } else {
-    return (
+    return item ? (
       <iframe
         src={src}
         title="player"
@@ -32,6 +34,8 @@ const PalyerEpisodes = ({ item, w, h }) => {
         className="z-10 absolute top-0 left-0 bottom-0 right-0"
         style={{ width: `${w}px`, height: `${h}px` }}
       />
+    ) : (
+      <Spinners />
     );
   }
 };

@@ -66,11 +66,10 @@ const DescriptionAnime = () => {
           <img src={data.cover} alt={data.cover} className=" rounded-2xl " />
           <div className="w-3/5 ml-16 flex flex-col  items-start  text-white">
             <div className="flex gap-3">
-              {data.genres
-                ? data.genres.map((text, id) => (
-                    <Genres text={text} typ="big" key={id} />
-                  ))
-                : "???"}
+              {data.genres &&
+                data.genres.map((text, id) => (
+                  <Genres text={text} typ="big" key={id} />
+                ))}
             </div>
             <h1 className="text-3xl font-bold p-3">{data.title}</h1>
             <h2 className="text-2xl font-bold p-2">
@@ -85,29 +84,36 @@ const DescriptionAnime = () => {
           </div>
           <div className="w-1/5 flex flex-col justify-center items-end text-white text-right">
             <p className="p-2">Informacje</p>
-            <p className="p-2">
+            <p className="p-2 flex flex-col">
               Rodzaj: <span className="font-bold">{data.series_type}</span>
             </p>
-            <p className="p-2">
+            <p className="p-2 flex flex-col">
               Odcinki: <span className="font-bold">{data.episodes}</span>
             </p>
-            <p className="p-2">
+            <p className="p-2 flex flex-col">
               Sezon:{" "}
-              <span className="font-bold">{`${data.season} ${data.season_year}`}</span>
+              <span className="font-bold first-letter:uppercase">{` ${data.season} ${data.season_year}`}</span>
             </p>
-            <p className="p-2">
+            <p className="p-2 flex flex-col">
               Emisji:{" "}
               <span className="font-bold">
-                {data.aired_from ? data.aired_from.slice(0, 10) : "???"}
+                {data.aired_from && data.aired_from.slice(0, 10)}
+              </span>
+            </p>
+            <p className="p-2 flex flex-col">
+              Data wychodzenia:{" "}
+              <span className="font-bold">
+                {data.aired_from && data.broadcast_day}
               </span>
             </p>
           </div>
         </div>
-        <h2 className="text-white m-10 uppercase text-4xl">Odcinki</h2>
+        <h2 className="text-white m-10 uppercase text-4xl">
+          {data.episodes > 0 ? "Odcinki" : "Brak odcinków"}
+        </h2>
         <div className="flex justify-center items-center flex-wrap w-full gap-7 mb-10">
-          {list.map((items, id) => (
-            <LinkEpisodes items={items} key={id} />
-          ))}
+          {list &&
+            list.map((items, id) => <LinkEpisodes items={items} key={id} />)}
         </div>
       </div>
     </div>

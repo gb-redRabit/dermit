@@ -9,6 +9,7 @@ import Anime from "./Anime";
 import Galeria from "./Galeria";
 import DescriptionEpisodes from "./DescriptionEpisodes";
 import Filmy from "./Filmy";
+import ErrorPage from "./ErrorPage";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="/movie/:id" element={<DescriptionAnime />} />
           <Route path="/anime/:id/:id" element={<DescriptionEpisodes />} />
           <Route path="/movie/:id/:id" element={<DescriptionEpisodes />} />
-          <Route path="/anime/:id/404" element={<Galeria />} />
+          <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </div>
     </div>

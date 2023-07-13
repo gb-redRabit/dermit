@@ -23,7 +23,7 @@
 
 
 .swiper-pagination-bullet-active {
-  background-color: rgb(255, 0, 0) !important;
+  background-color: rgb(234,179,8) !important;
   opacity: 1 !important;
 }
 
@@ -45,21 +45,19 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(51, 56, 68);
 }
-
-.swpierNew .swiper-slide {
-  height: calc((100% - 30px) / 2) !important;
+.swiper-button-prev ,.swiper-button-next{
+  height: 30px !important;
+  width:  30px !important;
+  border-radius: 50% !important;;
+  background-color: #000;
+  color: #fff !important;
 }
+.swiper-button-prev:hover ,.swiper-button-next:hover{
+  color: rgb(234,179,8) !important;
+}
+.swiper-button-prev::after, .swiper-button-next::after{
+  font-size: 15px !important;
 
-.swiper-button-next::after,.swiper-button-prev::after{
-    min-height: 50px !important;
-    min-width: 50px !important;
-    background: rgb(2, 6, 23) !important;
-    z-index: 50 !important;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff !important;
-    font-size: 15px !important;
+
 
 }

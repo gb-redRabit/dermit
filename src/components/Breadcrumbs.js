@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { BsDot } from "react-icons/bs";
 const activeEnd = (e) => {
   e.target.style.color = "rgb(234,179,8)";
 };
@@ -34,6 +35,7 @@ const Breadcrumbs = ({
         style={{ color: "white" }}
         onMouseEnter={activeEnd}
         onMouseLeave={activeStart}
+        className={"first-letter:uppercase"}
       >
         {bcTyp}
       </NavLink>
@@ -62,10 +64,10 @@ const Breadcrumbs = ({
     );
 
   return (
-    <div className="flex flex-row justify-start gap-4  my-10  w-full text-white">
-      {link1}
-      {link2}
-      {link3}
+    <div className="flex flex-row justify-start items-center gap-1  my-10  w-full text-white">
+      {link1} {link2 && <BsDot />}
+      {link2} {link3 && <BsDot />}
+      {link3} {link4 && <BsDot />}
       {link4}
     </div>
   );

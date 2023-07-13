@@ -1,11 +1,17 @@
 import React from "react";
 
 const Genres = ({ text, typ, click }) => {
+  const activeBackground = (e) => {
+    e.target.style.color = "rgb(234,179,8)";
+  };
   if (typ !== "big")
     return (
       <button
-        onClick={click}
-        className="text-sm flex justify-center items-center p-2  bg-gray-950 rounded text-white  text-center hover:text-yellow-500 hover:bg-gray-600 cursor-pointer"
+        onClick={(e) => {
+          click(e);
+          activeBackground(e);
+        }}
+        className="text-sm flex justify-center items-center p-2  bg-gray-950 rounded text-white transition-all duration-300 ease-linear text-center hover:text-yellow-500 hover:bg-gray-600 cursor-pointer"
       >
         {text}
       </button>
