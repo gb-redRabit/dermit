@@ -9,8 +9,8 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
-    // frame: false,
-    // fullscreen: true,
+    frame: false,
+    fullscreen: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -55,12 +55,6 @@ ipcMain.on("start", (event, data) => {
   fetch("https://api.docchi.pl/v1/series/list")
     .then((res) => res.text())
     .then((body) => event.reply("startOn", body));
-});
-
-ipcMain.on("sluchacz1", (event, data) => {
-  fetch("https://api.docchi.pl/v1/series/list")
-    .then((res) => res.text())
-    .then((body) => event.reply("dopowiedz1", body));
 });
 
 ipcMain.on("getAnime", (event, data) => {

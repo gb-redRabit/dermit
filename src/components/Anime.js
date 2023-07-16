@@ -39,7 +39,7 @@ const Anime = ({ page }) => {
 
     const addItem = (e) => {
       if (window.scrollY > document.body.offsetHeight - 1300) {
-        setloaderLimit((preValue) => (preValue += 7));
+        setloaderLimit((preValue) => (preValue += 10));
       }
     };
 

@@ -1,22 +1,21 @@
 import React, { useEffect } from "react";
 
 const Particles = () => {
-  let options = {
-    idCanvas: "canvas", // id Canvas
-    bgCanvas: "rgba(2, 6, 23,1)", //kolor tła
-    colorParticle: "rgba(255,255,255,1)", // kolor cząsteczeki
-    colorConnect: "255,255,255", // kolor kreski miedży cząsteczkami w rgb podawac w taki sposób
-    numberOfParticles: (window.innerHeight * window.innerHeight) / 10000, // ilość cząsteczek
-    sizeMin: 1.0, // minimalny rozmiar cząsteczeki
-    sizeMax: 2.0, // maxymalny rozmiar cząsteczeki
-    lineWidthConnect: 1, // gubość lini miedzy cząsteczkami
-    speed: 1, // mnożnik prędkości cząsteczek
-    mouseMove: false, // właczenie pola myszki
-    mouseArea: 1, // mnożnik pola myszki
-  };
   useEffect(() => {
+    const options = {
+      idCanvas: "canvas", // id Canvas
+      bgCanvas: "rgba(2, 6, 23,1)", //kolor tła
+      colorParticle: "rgba(255,255,255,1)", // kolor cząsteczeki
+      colorConnect: "255,255,255", // kolor kreski miedży cząsteczkami w rgb podawac w taki sposób
+      numberOfParticles: (window.innerHeight * window.innerHeight) / 10000, // ilość cząsteczek
+      sizeMin: 1.0, // minimalny rozmiar cząsteczeki
+      sizeMax: 2.0, // maxymalny rozmiar cząsteczeki
+      lineWidthConnect: 1, // gubość lini miedzy cząsteczkami
+      speed: 1, // mnożnik prędkości cząsteczek
+      mouseMove: false, // właczenie pola myszki
+      mouseArea: 1, // mnożnik pola myszki
+    };
     const canvas = document.querySelector(`#${options.idCanvas}`);
-    console.log(document.body.offsetHeight);
     const ctx = canvas.getContext("2d");
     ctx.canvas.width = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
