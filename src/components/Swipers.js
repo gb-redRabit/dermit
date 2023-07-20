@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import { BsDot } from "react-icons/bs";
-const Swipers = ({ data, type }) => {
+const Swipers = ({ data, type, pages }) => {
   if (type === "top")
     return (
       <Swiper
@@ -63,26 +63,34 @@ const Swipers = ({ data, type }) => {
           delay: 2500,
           disableOnInteraction: true,
         }}
-        slidesPerView={4}
-        className=" w-[97%] h-[400px]  my-10"
+        slidesPerView={pages}
+        className=" w-[97%] h-[300px]  my-10"
       >
         {data[0] &&
           data.map((item, index) => (
             <SwiperSlide
               key={index}
-              className="group !h-full relative text-white overflow-hidden rounded-xl bg-cover after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:bg-gradient-to-t after:from-[rgba(0,0,0,0.4)] after:to-[rgba(0,0,0,0.4)] hover:text-yellow-500 hover:after:from-[rgba(0,0,0,0.6)] hover:after:to-[rgba(0,0,0,0.6)]"
+              className="group !h-full  relative text-white overflow-hidden rounded-xl bg-cover after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:bg-gradient-to-t after:from-[rgba(0,0,0,0.4)] after:to-[rgba(0,0,0,0.4)] hover:text-yellow-500 hover:after:from-[rgba(0,0,0,0.6)] hover:after:to-[rgba(0,0,0,0.6)]"
               style={{ backgroundImage: `url(${item.cover})` }}
             >
-              <div className="text-xl font-medium absolute top-4 left-6 right-6 flex flex-col  z-10 transition-all duration-300 ease-linear">
-                <NavLink
-                  to={`/anime/${item.anime_id}/${item.anime_episode_number}`}
-                >
-                  {item.title}
-                </NavLink>
+              <div className="text-md font-medium absolute top-2 left-2 right-2 flex flex-col  z-10 transition-all duration-300 ease-linear">
+                {item.anime_episode_number ? (
+                  <NavLink
+                    to={`/anime/${item.anime_id}/${item.anime_episode_number}`}
+                  >
+                    {item.title}
+                  </NavLink>
+                ) : (
+                  <NavLink to={`/anime/${item.slug}`}>{item.title}</NavLink>
+                )}
               </div>
-              <div className="absolute bottom-4 left-6 right-6 flex items-end justify-between z-10">
-                <div className="text-md  flex items-center gap-1 transition-all duration-300 ease-linear">
-                  <div>Odcinki {item.anime_episode_number}</div>
+              <div className="absolute bottom-2 left-2 right-2 flex items-end justify-between z-10">
+                <div className="text-sm  flex items-center gap-1 transition-all duration-300 ease-linear">
+                  <div>
+                    {item.anime_episode_number
+                      ? `Odcinki ${item.anime_episode_number}`
+                      : ""}
+                  </div>
                 </div>
               </div>
             </SwiperSlide>

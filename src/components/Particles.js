@@ -17,8 +17,8 @@ const Particles = () => {
     };
     const canvas = document.querySelector(`#${options.idCanvas}`);
     const ctx = canvas.getContext("2d");
-    ctx.canvas.width = window.innerWidth;
-    ctx.canvas.height = window.innerHeight;
+    ctx.canvas.width = canvas.innerWidth;
+    ctx.canvas.height = canvas.innerHeight;
     let particleArray;
     canvas.style.backgroundColor = options.bgCanvas;
 

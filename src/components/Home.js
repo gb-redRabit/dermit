@@ -1,19 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from "./AppContext";
+import { useNavigate } from "react-router";
 // Import element componets
 import Typography from "./Typography";
 import Swipers from "./Swipers";
-import Particles from "./Particles";
+import Genres from "./Genres";
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
 const Home = () => {
   const { anime, changeSeazon } = useContext(AppContext);
-
+  const navigate = useNavigate();
   const [data, setData] = useState();
 
   const [dataNewAnime, setDataNewAnime] = useState({ hits: [] });
   const [dataNotAnime, setDataNotAnime] = useState({ hits: [] });
+  const [dataNextAnime, setDataNextAnime] = useState({ hits: [] });
+
+  const geee = () => {
+    navigate("/anime/");
+  };
 
   useEffect(() => {
     ipcRenderer.send(
@@ -40,13 +46,52 @@ const Home = () => {
             value.season === changeSeazon()
         )
       );
-    }
-  }, [anime]);
 
+      switch (changeSeazon()) {
+        case "winter":
+          setDataNextAnime(
+            anime.filter(
+              (value) =>
+                value.season_year === new Date().getFullYear() &&
+                value.season === "spring"
+            )
+          );
+          break;
+        case "spring":
+          setDataNextAnime(
+            anime.filter(
+              (value) =>
+                value.season_year === new Date().getFullYear() &&
+                value.season === "summer"
+            )
+          );
+          break;
+        case "summer":
+          setDataNextAnime(
+            anime.filter(
+              (value) =>
+                value.season_year === new Date().getFullYear() &&
+                value.season === "fall"
+            )
+          );
+          break;
+        case "fall":
+          setDataNextAnime(
+            anime.filter(
+              (value) =>
+                value.season_year === new Date().getFullYear() + 1 &&
+                value.season === "winter"
+            )
+          );
+          break;
+        default:
+          console.log("default");
+      }
+    }
+  }, [changeSeazon, anime]);
   return (
     <>
-      <Particles />
-      <div className=" flex flex-col overflow-hidden justify-start items-center min-h-screen w-[90vw] mx-auto pt-10 max-h-screen relative">
+      <div className=" flex flex-col overflow-hidden justify-start items-center min-h-screen w-[90vw] mx-auto pt-10  relative">
         <Typography
           text={`${changeSeazon("pl")} ${new Date().getFullYear()}`}
         />
@@ -54,13 +99,21 @@ const Home = () => {
         <div className="flex w-full justify-around items-center ">
           <div className="flex flex-col justify-center items-center w-1/2">
             <Typography text={`Nowe odcinki`} />
-            {dataNewAnime && <Swipers data={dataNewAnime} type={"bottom"} />}
+            {dataNewAnime && (
+              <Swipers data={dataNewAnime} type={"bottom"} pages={4} />
+            )}
           </div>
           <div className="flex flex-col justify-center items-center w-1/2">
             <Typography text={`Nieemitowane odcinki`} />
-            {dataNotAnime && <Swipers data={dataNotAnime} type={"bottom"} />}
+            {dataNotAnime && (
+              <Swipers data={dataNotAnime} type={"bottom"} pages={4} />
+            )}
           </div>
         </div>
+        <Typography text={`Już w przyszłym sezonie`} />
+        {dataNewAnime && (
+          <Swipers data={dataNextAnime} type={"bottom"} pages={8} />
+        )}
       </div>
     </>
   );
