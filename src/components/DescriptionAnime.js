@@ -11,7 +11,7 @@ const { ipcRenderer } = window.require("electron");
 
 const DescriptionAnime = () => {
   const [data, setData] = useState({ hits: [] });
-  const [list, setList] = useState([]);
+  const [list, setList] = useState({ hits: [] });
   const location = useLocation().pathname;
 
   let episodes = [];
@@ -40,7 +40,8 @@ const DescriptionAnime = () => {
         });
       }
     }
-  });
+  }, [data]);
+
   return data ? (
     <div
       className=" bg-cover flex justify-center  items-start relative z-[1] min-h-screen"
@@ -112,7 +113,7 @@ const DescriptionAnime = () => {
           {data.episodes > 0 ? "Odcinki" : "Brak odcinków"}
         </h2>
         <div className="flex justify-center items-center flex-wrap w-full gap-7 mb-10">
-          {list &&
+          {list[0] &&
             list.map((items, id) => <LinkEpisodes items={items} key={id} />)}
         </div>
       </div>

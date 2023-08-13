@@ -42,13 +42,6 @@ const Nav = () => {
             </IconContext.Provider>
           </NavLink>
         </li>
-        <li className="flex justify-center items-center text-2xl p-3 rounded cursor-pointer hover:bg-slate-700">
-          <NavLink to="/galeria">
-            <IconContext.Provider value={{ className: "" }}>
-              <TfiGallery />
-            </IconContext.Provider>
-          </NavLink>
-        </li>
       </ul>
       <button
         onClick={closeApp}

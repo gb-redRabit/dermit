@@ -1,25 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from "./AppContext";
-import { useNavigate } from "react-router";
 // Import element componets
 import Typography from "./Typography";
 import Swipers from "./Swipers";
-import Genres from "./Genres";
+
 // Import electon modul Inter-Process Communication
 const { ipcRenderer } = window.require("electron");
 
 const Home = () => {
   const { anime, changeSeazon } = useContext(AppContext);
-  const navigate = useNavigate();
+
   const [data, setData] = useState();
 
   const [dataNewAnime, setDataNewAnime] = useState({ hits: [] });
   const [dataNotAnime, setDataNotAnime] = useState({ hits: [] });
   const [dataNextAnime, setDataNextAnime] = useState({ hits: [] });
-
-  const geee = () => {
-    navigate("/anime/");
-  };
 
   useEffect(() => {
     ipcRenderer.send(

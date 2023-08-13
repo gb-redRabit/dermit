@@ -30,13 +30,16 @@
     "portable": "react-scripts build && electron-builder build --win=portable -c.extraMetadata.main=build/electron.js --publish never"
   },
   "build": {
-    "appId": "dermit",
+    "appId": "Dermit",
+    "productName": "Dermit",
     "win": {
       "target": [
         "nsis"
-      ]
+      ],
+      "icon": "icon.ico"
     },
     "nsis": {
+      "artifactName": "${productName}.${ext}",
       "oneClick": false,
       "perMachine": true,
       "license": "license.md",
