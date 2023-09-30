@@ -1,7 +1,7 @@
 
 # Dermit
 
-An application to view and watch Anime in Polish by [Api docs seven7s](https://dev.docchi.pl)
+An application to view and watch Anime in Polish by [Api docs docchi](https://dev.docchi.pl)
 
 
 ## Tech Stack
