@@ -28,7 +28,7 @@ const Swipers = ({ data, type, pages }) => {
         {data &&
           data.map((item, index) => (
             <SwiperSlide
-              key={index}
+              key={`${index}-${item.mal_id}`}
               className="group !h-[380px] relative text-white overflow-hidden rounded-xl bg-cover after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:bg-gradient-to-t after:from-[rgba(0,0,0,0.4)] after:to-[rgba(0,0,0,0.4)] hover:text-yellow-500 hover:after:from-[rgba(0,0,0,0.6)] hover:after:to-[rgba(0,0,0,0.6)]"
               style={{ backgroundImage: `url(${item.cover})` }}
             >
@@ -69,7 +69,11 @@ const Swipers = ({ data, type, pages }) => {
         {data[0] &&
           data.map((item, index) => (
             <SwiperSlide
-              key={index}
+              key={`${index}-${item.title}-${
+                item.anime_episode_number
+                  ? item.anime_episode_number
+                  : item.slug
+              }`}
               className="group !h-full  relative text-white overflow-hidden rounded-xl bg-cover after:absolute after:top-0 after:left-0 after:w-full after:h-full after:content-[''] after:bg-gradient-to-t after:from-[rgba(0,0,0,0.4)] after:to-[rgba(0,0,0,0.4)] hover:text-yellow-500 hover:after:from-[rgba(0,0,0,0.6)] hover:after:to-[rgba(0,0,0,0.6)]"
               style={{ backgroundImage: `url(${item.cover})` }}
             >
@@ -78,10 +82,16 @@ const Swipers = ({ data, type, pages }) => {
                   <NavLink
                     to={`/anime/${item.anime_id}/${item.anime_episode_number}`}
                   >
-                    {item.title}
+                    {item.title.length < 20
+                      ? item.title
+                      : `${item.title.slice(0, 30)}...`}
                   </NavLink>
                 ) : (
-                  <NavLink to={`/anime/${item.slug}`}>{item.title}</NavLink>
+                  <NavLink to={`/anime/${item.slug}`}>
+                    {item.title.length < 20
+                      ? item.title
+                      : `${item.title.slice(0, 30)}...`}
+                  </NavLink>
                 )}
               </div>
               <div className="absolute bottom-2 left-2 right-2 flex items-end justify-between z-10">

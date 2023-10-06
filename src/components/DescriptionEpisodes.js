@@ -12,14 +12,13 @@ import {
   TbPlayerTrackPrev,
   TbPlayerTrackNext,
   TbBrandCodesandbox,
+  TbLink,
 } from "react-icons/tb";
-import { BsArrowsFullscreen } from "react-icons/bs";
+
 // Import electon modul Inter-Process Communication
-const { ipcRenderer } = window.require("electron");
+const { ipcRenderer, shell } = window.require("electron");
 
 const DescriptionEpisodes = () => {
-  const [w, setW] = useState(window.innerWidth * 0.7);
-  const [h, setH] = useState(window.innerHeight * 0.7);
   const [data, setData] = useState({ hits: [] });
   const [dataAnime, setDataAnime] = useState({ hits: [] });
   const [playerActive, setPlayerActive] = useState();
@@ -65,26 +64,12 @@ const DescriptionEpisodes = () => {
     );
   }, []);
 
-  const fullScreen = (e) => {
-    if (e.target.style.position !== "absolute") {
-      e.target.style.position = "absolute";
-      e.target.style.top = "20px";
-      e.target.style.left = "20px";
-      setW(window.innerWidth);
-      setH(window.innerHeight);
-    } else {
-      e.target.style.position = "flex";
-      e.target.style.top = "auto";
-      e.target.style.left = "auto";
-      setW(window.innerWidth * 0.7);
-      setH(window.innerHeight * 0.7);
-    }
-  };
   const unClickable = (e) => {
     document.querySelectorAll(" button").forEach((item) => {
       item.style.color = "rgb(255, 255, 255)";
     });
   };
+  console.log(dataAnime);
   if (data[0])
     return (
       <div
@@ -98,99 +83,110 @@ const DescriptionEpisodes = () => {
           bcTitleText={dataAnime.title}
           bcEpisodes={slugEpisodes}
         />
-        <div className="flex items-center m-3 p-2 gap-4">
-          <NavLink
-            to={popEpisodes}
-            className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-1"
-            onClick={() => {
-              navigate(popEpisodes);
-              navigate(0);
-            }}
-            style={
-              slugEpisodes === "1"
-                ? {
-                    cursor: "not-allowed",
-                    color: "white",
-                    opacity: 0.6,
-                    pointerEvents: "none",
-                  }
-                : { cursor: "cursor-pointer", color: "white" }
-            }
-          >
-            <IconContext.Provider
-              value={{ className: "text-xl group-hover:text-yellow-500" }}
-            >
-              <TbPlayerTrackPrev />
-              Poprzedni
-            </IconContext.Provider>
-          </NavLink>
-          <NavLink
-            className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-2"
-            to={location.slice(0, location.length - slugEpisodesLength)}
-            style={{ color: "white" }}
-          >
-            <IconContext.Provider
-              value={{ className: "text-xl group-hover:text-yellow-500" }}
-            >
-              <TbBrandCodesandbox />
-              Lista
-            </IconContext.Provider>
-          </NavLink>
-          <butin
-            className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm cursor-pointer text-white z-50 order-3"
-            onClick={(e) => fullScreen(e)}
-          >
-            <IconContext.Provider
-              value={{ className: "text-xl group-hover:text-yellow-500" }}
-            >
-              <BsArrowsFullscreen />
-            </IconContext.Provider>
-            Pełny ekran
-          </butin>
-          <NavLink
-            className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-4"
-            to={nextEpisodes}
-            onClick={() => {
-              navigate(nextEpisodes);
-              navigate(0);
-            }}
-            style={
-              dataAnime.episodes === parseInt(slugEpisodes)
-                ? {
-                    cursor: "not-allowed",
-                    color: "white",
-                    opacity: 0.6,
-                    pointerEvents: "none",
-                  }
-                : { cursor: "cursor-pointer", color: "white" }
-            }
-          >
-            Nastepny
-            <IconContext.Provider
-              value={{ className: "text-xl group-hover:text-yellow-500" }}
-            >
-              <TbPlayerTrackNext />
-            </IconContext.Provider>
-          </NavLink>
-        </div>
-        {playerActive ? (
-          <PalyerEpisodes item={playerActive} h={h} w={w} />
-        ) : (
-          <PalyerEpisodes item={data[0]} h={h} w={w} />
-        )}
-        <div className=" flex gap-2 my-2 p-5">
-          {data.map((item) => {
-            return (
-              <Genres
-                text={`${item.player_hosting} - ${item.translator_title}`}
-                click={(e) => {
-                  setPlayerActive(item);
-                  unClickable(e);
+        <div className="flex flex-row">
+          <div className="flex flex-col  items-center m-3 p-2 gap-4">
+            <div className="flex  gap-4">
+              <NavLink
+                to={popEpisodes}
+                className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-1"
+                onClick={() => {
+                  navigate(popEpisodes);
+                  navigate(0);
                 }}
-                key={item.id}
-              />
-            );
-          })}
+                style={
+                  slugEpisodes === "1"
+                    ? {
+                        cursor: "not-allowed",
+                        color: "white",
+                        opacity: 0.6,
+                        pointerEvents: "none",
+                      }
+                    : { cursor: "cursor-pointer", color: "white" }
+                }
+              >
+                <IconContext.Provider
+                  value={{ className: "text-xl group-hover:text-yellow-500" }}
+                >
+                  <TbPlayerTrackPrev />
+                  Poprzedni
+                </IconContext.Provider>
+              </NavLink>
+              <NavLink
+                className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-2"
+                to={location.slice(0, location.length - slugEpisodesLength)}
+                style={{ color: "white" }}
+              >
+                <IconContext.Provider
+                  value={{ className: "text-xl group-hover:text-yellow-500" }}
+                >
+                  <TbBrandCodesandbox />
+                  Lista
+                </IconContext.Provider>
+              </NavLink>
+              <button
+                className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-4"
+                type="button"
+                onClick={() => {
+                  shell.openExternal(
+                    `https://docchi.pl/production/as/${dataAnime.slug}/${slugEpisodes}`
+                  );
+                }}
+              >
+                <IconContext.Provider
+                  value={{ className: "text-xl group-hover:text-yellow-500" }}
+                >
+                  <TbLink />
+                </IconContext.Provider>
+                Link
+              </button>
+              <NavLink
+                className="group flex justify-center items-center bg-slate-900 p-2 rounded gap-3 text-sm order-4"
+                to={nextEpisodes}
+                onClick={() => {
+                  navigate(nextEpisodes);
+                  navigate(0);
+                }}
+                style={
+                  dataAnime.episodes === parseInt(slugEpisodes)
+                    ? {
+                        cursor: "not-allowed",
+                        color: "white",
+                        opacity: 0.6,
+                        pointerEvents: "none",
+                      }
+                    : { cursor: "cursor-pointer", color: "white" }
+                }
+              >
+                Nastepny
+                <IconContext.Provider
+                  value={{ className: "text-xl group-hover:text-yellow-500" }}
+                >
+                  <TbPlayerTrackNext />
+                </IconContext.Provider>
+              </NavLink>
+            </div>
+            {playerActive ? (
+              <PalyerEpisodes item={playerActive} />
+            ) : (
+              <PalyerEpisodes item={data[0]} />
+            )}
+          </div>
+          {data.length > 1 && (
+            <div className="flex flex-col justify-center items-start gap-4 w-[300px]">
+              {data.map((item) => {
+                return (
+                  <Genres
+                    text={`${item.player_hosting} - ${item.translator_title}`}
+                    click={(e) => {
+                      setPlayerActive(item);
+                      unClickable(e);
+                    }}
+                    key={item.id}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     );
