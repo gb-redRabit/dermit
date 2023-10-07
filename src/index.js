@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./style/index.css";
-import App from "./components/App";
+import App from "./App";
 import { HashRouter } from "react-router-dom";
-import AppProvider from "../src/components/AppContext";
+import AppProvider from "./AppContext";
 import reportWebVitals from "./script/reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -18,3 +18,8 @@ root.render(
 );
 
 reportWebVitals();
+
+// poprawić wyglad oraz zmienic interfej
+// pierwsze właczen9e i logowanie uzytkownika
+// strona uzytkownika
+// sprawdzanie obejrzanych serii

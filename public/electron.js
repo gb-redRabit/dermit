@@ -2,8 +2,11 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const isDev = app.isPackaged ? false : require("electron-is-dev");
 const path = require("path");
 const fetch = require("electron-fetch").default;
+const Store = require("electron-store");
 
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
+
+Store.initRenderer();
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -69,6 +72,17 @@ ipcMain.on("getEpisodes", (event, data) => {
     .then((body) => event.reply("onEpisodes", body));
 });
 
+ipcMain.on("getProfile", (event, data) => {
+  fetch(`https://api.docchi.pl/v1/user/profile/${data}`)
+    .then((res) => res.text())
+    .then((body) => event.reply("onProfile", body));
+});
+
+ipcMain.on("getListProfilet", (event, data) => {
+  fetch(`https://api.docchi.pl/v1/user/list/find/${data}`)
+    .then((res) => res.text())
+    .then((body) => event.reply("onListProfilet", body));
+});
 ipcMain.on("close", () => {
   app.quit();
 });

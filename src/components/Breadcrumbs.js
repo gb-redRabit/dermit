@@ -24,6 +24,7 @@ const Breadcrumbs = ({
         style={{ color: "white" }}
         onMouseEnter={activeEnd}
         onMouseLeave={activeStart}
+        onClick={() => window.scrollTo({ top: 0 })}
       >
         Home
       </NavLink>
@@ -36,6 +37,7 @@ const Breadcrumbs = ({
         onMouseEnter={activeEnd}
         onMouseLeave={activeStart}
         className={"first-letter:uppercase"}
+        onClick={() => window.scrollTo({ top: 0 })}
       >
         {bcTyp}
       </NavLink>
@@ -47,6 +49,7 @@ const Breadcrumbs = ({
         style={{ color: "white" }}
         onMouseEnter={activeEnd}
         onMouseLeave={activeStart}
+        onClick={() => window.scrollTo({ top: 0 })}
       >
         {bcTitleText ? bcTitleText : bcTitle}
       </NavLink>
@@ -58,6 +61,7 @@ const Breadcrumbs = ({
         style={{ color: "white" }}
         onMouseEnter={activeEnd}
         onMouseLeave={activeStart}
+        onClick={() => window.scrollTo({ top: 0 })}
       >
         {bcEpisodes}
       </NavLink>

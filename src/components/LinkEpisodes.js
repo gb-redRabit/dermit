@@ -33,7 +33,7 @@ const LinkEpisodes = ({ items }) => {
     slug += `/404`;
   }
   return (
-    <NavLink to={slug}>
+    <NavLink to={slug} onClick={() => window.scrollTo({ top: 0 })}>
       <div className=" w-[280px]  flex flex-col justify-center items-center">
         {el}
         <div className="flex flex-col justify-start items-start  w-full text-xs bg-gray-900 text-white gap-2 rounded-b-2xl">

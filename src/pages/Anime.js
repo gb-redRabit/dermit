@@ -2,19 +2,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 // Import element componets
-import ItemAnime from "./ItemAnime";
-import Genres from "./Genres";
-import Breadcrumbs from "./Breadcrumbs";
-import Typography from "./Typography";
+import ItemAnime from "../components/ItemAnime";
+import Genres from "../components/Genres";
+import Breadcrumbs from "../components/Breadcrumbs";
+import Typography from "../components/Typography";
 // Import react-icons
 import { IconContext } from "react-icons";
 import { CgMenuGridR } from "react-icons/cg";
-import { AppContext } from "./AppContext";
-import ButtonScrol from "./ButtonScrol";
+import { AppContext } from "../AppContext";
+import ButtonScrol from "../components/ButtonScrol";
 
 const Anime = ({ page }) => {
-  const { animeMovie } = useContext(AppContext);
-  const [data, setData] = useState(animeMovie);
+  const { anime } = useContext(AppContext);
+  const [data, setData] = useState(anime);
   const [genres, setGenres] = useState([]);
   const [type, setType] = useState([]);
   const [text, setText] = useState([]);
@@ -39,7 +39,7 @@ const Anime = ({ page }) => {
 
     const addItem = (e) => {
       if (window.scrollY > document.body.offsetHeight - 1300) {
-        setloaderLimit((preValue) => (preValue += 7));
+        setloaderLimit((preValue) => (preValue += 10));
       }
     };
 
@@ -51,9 +51,7 @@ const Anime = ({ page }) => {
 
   const searchInput = (e) => {
     setText(e.target.value.toLowerCase());
-    setData(
-      animeMovie.filter((word) => word.title.toLowerCase().includes(text))
-    );
+    setData(anime.filter((word) => word.title.toLowerCase().includes(text)));
   };
 
   const displayGenres = () => {
@@ -68,7 +66,7 @@ const Anime = ({ page }) => {
     });
 
     setData(
-      animeMovie.filter((word) => [...word.genres].includes(e.target.innerText))
+      anime.filter((word) => [...word.genres].includes(e.target.innerText))
     );
     document.querySelector("select").value = "";
   };
@@ -146,9 +144,8 @@ const Anime = ({ page }) => {
       item.style.color = "rgb(255, 255, 255)";
     });
 
-    if ("all" === e.target.value) setData(animeMovie);
-    else
-      setData(animeMovie.filter((word) => word.series_type === e.target.value));
+    if ("all" === e.target.value) setData(anime);
+    else setData(anime.filter((word) => word.series_type === e.target.value));
   };
 
   return (
@@ -157,12 +154,7 @@ const Anime = ({ page }) => {
       style={{ maxWidth: "calc(100vw - 81px)" }}
     >
       <ButtonScrol />
-      <Breadcrumbs
-        bcHome={true}
-        bcTyp={location.slice(1, 6)}
-        bcTitle={false}
-        bcEpisodes={false}
-      />
+      <Breadcrumbs bcTyp={location.slice(1, 6)} />
       <div className="flex justify-between items-center text-white bg-slate-900 w-full p-4 rounded my-10">
         <div>
           <Typography text={`Lista ${page}`} />
